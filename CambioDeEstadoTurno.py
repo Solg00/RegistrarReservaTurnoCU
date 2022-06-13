@@ -1,4 +1,3 @@
-
 class CambioDeEstadoTurno():
     def __init__(self, fechaHoraDesde, fechaHoraHasta, estado) -> None:
         self._fechaHoraDesde = fechaHoraDesde
