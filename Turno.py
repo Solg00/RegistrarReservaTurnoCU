@@ -58,7 +58,6 @@ class Turno:
                 return True
         return False
 
+    # El estadoReservado se lo pasaria el gestor despues de buscar entre los estados
     def reservar(self, estadoReservado):
         self.crearCambioEstado(estadoReservado)
-
-
