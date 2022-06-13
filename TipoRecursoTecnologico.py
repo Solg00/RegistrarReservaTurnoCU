@@ -13,4 +13,4 @@ class TipoRecursoTecnologico():
         return self._descripcion
 
     def getNombre(self):
-        return self._nombre
+        return self.nombre
