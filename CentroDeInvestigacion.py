@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class CentroDeInvestigacion:
     def __init__(self, nombre, sigla, direccion, edificio, piso, coordenadas, correoElectronico,
                  numeroResolucionCreacion, fechaResolucionCreacion, reglamento, caracteristicasGenerales,
