@@ -4,6 +4,7 @@ class CambioDeEstadoTurno():
         self._fechaHoraDesde = fechaHoraDesde
         self._fechaHoraHasta = fechaHoraHasta
         self._estado = estado
+
     @property
     def fechaHoraDesde(self):
         return self._fechaHoraDesde
@@ -17,7 +18,7 @@ class CambioDeEstadoTurno():
         return self._estado
 
     def sosEstadoActual(self):
-        if self._fechaHoraHasta is None:
+        if self.fechaHoraHasta is None:
             return True
         return False
 
