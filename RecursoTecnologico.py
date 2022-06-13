@@ -74,7 +74,7 @@ class RecursoTecnologico:
         '''Obtiene los turnos del RT posteriores a la fecha actual'''
         listaTurnos = []
         for turno in self.turnos:
-            posterior = turno.sosPosterioADateActual()
+            posterior = turno.sosPosteriorAFechaActual()
             if posterior:
                 turno = turno.getDatosTurno()
                 listaTurnos.append(turno)
