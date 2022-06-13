@@ -1,7 +1,9 @@
+from datetime import datetime
+
 class CentroDeInvestigacion:
     def __init__(self, nombre, sigla, direccion, edificio, piso, coordenadas, correoElectronico,
                  numeroResolucionCreacion, fechaResolucionCreacion, reglamento, caracteristicasGenerales,
-                 fechaAlta, tiempoAntelacionReserva, fechaBaja, motivoBaja) -> None:
+                 tiempoAntelacionReserva, fechaBaja, motivoBaja) -> None:
         self._nombre = nombre
         self._sigla = sigla
         self._direccion = direccion
@@ -14,7 +16,7 @@ class CentroDeInvestigacion:
         self._fechaResolucionCreacion = fechaResolucionCreacion
         self._reglamento = reglamento
         self._caracteristicasGenerales = caracteristicasGenerales
-        self._fechaAlta = fechaAlta
+        self._fechaAlta = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self._tiempoAntelacionReserva = tiempoAntelacionReserva
         self._fechaBaja = fechaBaja
         self._motivoBaja = motivoBaja
@@ -63,10 +65,6 @@ class CentroDeInvestigacion:
     @property
     def caracteristicasGenerales(self):
         return self._caracteristicasGenerales
-
-    @property
-    def fechaAlta(self):
-        return self._fechaAlta
 
     @property
     def tiempoAntelacionReserva(self):
