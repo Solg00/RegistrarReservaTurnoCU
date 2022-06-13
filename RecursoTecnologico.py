@@ -86,7 +86,7 @@ class RecursoTecnologico:
         estadoActual = None
         '''Obtiene el estado actual del RT'''
         for cambioEstado in self.cambioEstadoRT:
-            if cambioEstado.sosEstadoActual(estadoActual):
+            if cambioEstado.sosEstadoActual():
                 estadoActual = cambioEstado
             print(estadoActual)
         return estadoActual

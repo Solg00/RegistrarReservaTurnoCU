@@ -1,9 +1,12 @@
 from datetime import datetime
 
 class CambioEstadoRT:
-    def __init__(self,fechaDesde,fechaHasta) -> None:
+    def __init__(self,fechaDesde,fechaHasta=None) -> None:
         self._fechaHoraDesde = datetime.strptime(fechaDesde,"%d/%m/%Y %H:%M").strftime('%d/%m/%Y %H:%M')
-        self._fechaHoraHasta = datetime.strptime(fechaHasta,"%d/%m/%Y %H:%M").strftime("%d/%m/%Y %H:%M")
+        if fechaHasta:
+            self._fechaHoraHasta = datetime.strptime(fechaHasta,"%d/%m/%Y %H:%M").strftime("%d/%m/%Y %H:%M")
+        else:
+            self._fechaHoraHasta = fechaHasta
     
     @property
     def fechaHoraDesde(self):
@@ -13,14 +16,11 @@ class CambioEstadoRT:
     def fechaHoraHasta(self):
         return self._fechaHoraHasta
 
-    def sosEstadoActual(self,estadoActual):
-        if estadoActual is None:
+    def sosEstadoActual(self):
+        if self.fechaHoraHasta is None:
             return True
-        else:
-            if self.fechaHoraDesde > estadoActual.fechaHoraDesde:
-                return True
-            else:
-                return False
-    
+        
+        return False
+
     def __str__(self) -> str:
         return f'CAMBIO: {self.fechaHoraDesde} - {self.fechaHoraHasta}'
