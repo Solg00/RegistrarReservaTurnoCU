@@ -1,10 +1,10 @@
-from math import perm
+from datetime import datetime
 
 
 class RecursoTecnologico:
     def __init__(self,nroRT,fechaAlta,img,perMP,durMP,frHorTur,modelo,tipoRT,cambioEstado,turnos=[]) -> None:
         self._nroRT = nroRT
-        self._fechaAlta = fechaAlta
+        self._fechaAlta = datetime.strptime(fechaAlta,"%d/%m/%Y").strftime('%d/%m/%Y %H:%M')
         self._imagenes = img
         self._periodicidaMP = perMP
         self._duracionMP = durMP
@@ -54,7 +54,7 @@ class RecursoTecnologico:
         return self._turnos
 
     # Metodos de clase
-    def sosRTDelTipoSeleccionado(self,tipoSeleccionado:TipoRecursoTecnologico)-> bool:
+    def sosRTDelTipoSeleccionado(self,tipoSeleccionado)-> bool:
         '''Compara si el tipo del RT es igual al enviado por parametro y retorna un booleano'''
         if self.tipoRT.nombre == tipoSeleccionado.nombre:
             return True
@@ -83,9 +83,10 @@ class RecursoTecnologico:
 
 
     def buscarEstadoActual(self):
+        estadoActual = None
         '''Obtiene el estado actual del RT'''
         for cambioEstado in self.cambioEstadoRT:
-            if cambioEstado.sosEstadoActual():
+            if cambioEstado.sosEstadoActual(estadoActual):
                 estadoActual = cambioEstado
-        
+            print(estadoActual)
         return estadoActual

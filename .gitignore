@@ -1,4 +1,4 @@
 # Archivos, directorios a ignorar en commit
 _pycache_/
 ./_pycache_
-.pyc
+*.pyc
