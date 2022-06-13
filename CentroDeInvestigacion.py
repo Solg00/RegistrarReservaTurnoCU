@@ -80,15 +80,23 @@ class CentroDeInvestigacion:
     def motivoBaja(self):
         return self._motivoBaja
 
+    @property
+    def telefonosContacto(self):
+        return self._telefonosContacto
+
+    @property
+    def cientificos(self):
+        return self._cientificos
+
     def agregarTelefonoContacto(self, telefono):
-        self._telefonosContacto.append(telefono)
+        self.telefonosContacto.append(telefono)
 
     def agregarCientifico(self, cientifico):
-        self._cientificos.append(cientifico)
+        self.cientificos.append(cientifico)
 
     def misCientificosActivos(self):
         cientificosActivos = []
-        for cientifico in self._cientificos:
+        for cientifico in self.cientificos:
             if cientifico.esCientificoActivo():
                 cientificosActivos.append(cientifico)
         return cientificosActivos
