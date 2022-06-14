@@ -4,6 +4,7 @@ from datetime import datetime
 class CambioDeEstadoTurno():
     def __init__(self, estado) -> None:
         self._fechaHoraDesde = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self._fechaHoraHasta = None
         self._estado = estado
 
     @property
