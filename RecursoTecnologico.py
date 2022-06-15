@@ -67,8 +67,11 @@ class RecursoTecnologico:
     def miModeloYMarca(self)-> str :
         return self.modelo.getNombre()
 
-    def getMiCI(self):
-        pass
+    def getMiCI(self,centrosInvestigacion:list):
+        '''Obtiene el centro de investigación al que pertenece el RT'''
+        for centro in centrosInvestigacion:
+            if centro.esTuRT(self):
+                return centro
     
     def buscarTurnosDelRT(self) -> list:
         '''Obtiene los turnos del RT posteriores a la fecha actual'''
