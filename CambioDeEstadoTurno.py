@@ -1,7 +1,10 @@
+from datetime import datetime
+
+
 class CambioDeEstadoTurno():
-    def __init__(self, fechaHoraDesde, fechaHoraHasta, estado) -> None:
-        self._fechaHoraDesde = fechaHoraDesde
-        self._fechaHoraHasta = fechaHoraHasta
+    def __init__(self, estado) -> None:
+        self._fechaHoraDesde = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self._fechaHoraHasta = None
         self._estado = estado
 
     @property
@@ -21,4 +24,7 @@ class CambioDeEstadoTurno():
             return True
         return False
 
-
+    def esReservable(self):
+        if self.estado.esReservable:
+            return True
+        return False

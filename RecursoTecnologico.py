@@ -12,7 +12,7 @@ class RecursoTecnologico:
         self._modelo = modelo
         self._tipoRT = tipoRT
         self._turnos = turnos
-        self._cambioEstadoRT = cambioEstado
+        self._cambioEstadoRT = []
     @property
     def nroRT(self):
         return self._nroRT
@@ -82,8 +82,6 @@ class RecursoTecnologico:
                 turno = turno.getDatosTurno()
                 listaTurnos.append(turno)
         return listaTurnos
-
-
 
     def buscarEstadoActual(self):
         estadoActual = None
