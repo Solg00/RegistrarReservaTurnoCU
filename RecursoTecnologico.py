@@ -12,7 +12,7 @@ class RecursoTecnologico:
         self._modelo = modelo
         self._tipoRT = tipoRT
         self._turnos = turnos
-        self._cambioEstadoRT = []
+        self._cambioEstadoRT = cambioEstado
     @property
     def nroRT(self):
         return self._nroRT
