@@ -14,5 +14,5 @@ class Sesion:
     #Metodos
     def getUsuarioSesion(self):
         '''Obtiene el usuario en Sesion'''
-        return self._usuario
+        return self.usuario
 

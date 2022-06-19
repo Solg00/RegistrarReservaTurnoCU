@@ -19,4 +19,4 @@ class Modelo:
         for marca in marcas:
             for i in marca.modelos:
                 if self.nombre==i.nombre:
-                    return marca.nombre
+                    return marca.getNombre()

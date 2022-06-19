@@ -19,10 +19,9 @@ class Usuario:
         return self._habilitado
 
     # posiblemente se necesite
-    def getDataUsuario(self):
-        data = {
-            'nombre_user' : self.nomUsuario,
-            'clave' : self.clave,
-            'habilitado' : self.habilitado
-        }
-        return data
+    def getEmailCientifico(self,cientificos):
+        for cientifico in cientificos:
+            if self.nomUsuario == cientifico.personalCientifico.usuario.nomUsuario:
+                return cientifico.personalCientifico.getEmail()
+                
+

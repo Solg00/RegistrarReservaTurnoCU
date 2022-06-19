@@ -4,7 +4,7 @@ from datetime import datetime
 class CentroDeInvestigacion:
     def __init__(self, nombre, sigla, direccion, edificio, piso, coordenadas, correoElectronico,
                  numeroResolucionCreacion, fechaResolucionCreacion, reglamento, caracteristicasGenerales,
-                 tiempoAntelacionReserva, fechaBaja, motivoBaja) -> None:
+                 tiempoAntelacionReserva, fechaBaja, motivoBaja,cientificos=[], recursosTecnologicos=[]) -> None:
         self._nombre = nombre
         self._sigla = sigla
         self._direccion = direccion
@@ -21,8 +21,8 @@ class CentroDeInvestigacion:
         self._tiempoAntelacionReserva = tiempoAntelacionReserva
         self._fechaBaja = fechaBaja
         self._motivoBaja = motivoBaja
-        self._cientificos = []
-
+        self._cientificos = cientificos
+        self._recursosTecnologicos = recursosTecnologicos
     @property
     def nombre(self):
         return self._nombre
@@ -87,11 +87,19 @@ class CentroDeInvestigacion:
     def cientificos(self):
         return self._cientificos
 
-    def agregarTelefonoContacto(self, telefono):
-        self.telefonosContacto.append(telefono)
+    @property
+    def recursosTecnologicos(self):
+        return self._recursosTecnologicos
 
-    def agregarCientifico(self, cientifico):
-        self.cientificos.append(cientifico)
+    @property
+    def getNombre(self):
+        return self.nombre
+
+    def esTuRT(self,rt):
+        for recurso in self.recursosTecnologicos:
+            if recurso.nroRT == rt.nroRT:
+                return True
+        return False
 
     def misCientificosActivos(self):
         cientificosActivos = []

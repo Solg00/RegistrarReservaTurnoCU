@@ -28,3 +28,7 @@ class CambioDeEstadoTurno():
         if self.estado.esReservable:
             return True
         return False
+
+
+    def getNombreEstado(self):
+        return self.estado.getNombre()

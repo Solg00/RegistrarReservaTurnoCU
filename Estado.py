@@ -44,3 +44,5 @@ class Estado:
         else:
             return False
 
+    def getNombre(self):
+        return self.nombre

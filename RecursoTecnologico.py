@@ -64,8 +64,8 @@ class RecursoTecnologico:
     def getNumeroInventario(self) -> int:
         return self.nroRT
     
-    def miModeloYMarca(self)-> str :
-        return self.modelo.getNombre()
+    def miModeloYMarca(self,marcas:list)-> str :
+        return self.modelo.getNombre() + '-' + self.modelo.getMarca(marcas)
 
     def getMiCI(self,centrosInvestigacion:list):
         '''Obtiene el centro de investigación al que pertenece el RT'''
@@ -84,10 +84,9 @@ class RecursoTecnologico:
         return listaTurnos
 
     def buscarEstadoActual(self):
-        estadoActual = None
         '''Obtiene el estado actual del RT'''
+        estadoActual = None
         for cambioEstado in self.cambioEstadoRT:
             if cambioEstado.sosEstadoActual():
                 estadoActual = cambioEstado
-            print(estadoActual)
         return estadoActual

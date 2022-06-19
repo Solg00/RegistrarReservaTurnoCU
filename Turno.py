@@ -4,12 +4,12 @@ from CambioDeEstadoTurno import CambioDeEstadoTurno
 
 
 class Turno:
-    def __init__(self, fechaGeneracion, diaSemana, fechaHoraInicio, fechaHoraFin) -> None:
+    def __init__(self, fechaGeneracion, diaSemana, fechaHoraInicio, fechaHoraFin,cambiosDeEstadoTurno = []) -> None:
         self._fechaGeneracion = fechaGeneracion
         self._diaSemana = diaSemana
         self._fechaHoraInicio = fechaHoraInicio
         self._fechaHoraFin = fechaHoraFin
-        self._cambiosDeEstadoTurno = []
+        self._cambiosDeEstadoTurno = cambiosDeEstadoTurno
 
     @property
     def fechaGeneracion(self):
@@ -50,7 +50,7 @@ class Turno:
         return False
 
     def getDatosTurno(self):
-        return
+        return self
 
     def estoyDisponible(self):
         for cambioEstado in self.cambiosDeEstadoTurno:
