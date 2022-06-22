@@ -19,6 +19,7 @@ class GestorDeCURegReservaDeTurno:
         self._turnoSeleccionado = None
         self._envioNotifSeleccionado = None
         self._confirmacion = ''
+        
     def registrarReservaTurno():
         pass
 
@@ -74,8 +75,21 @@ class GestorDeCURegReservaDeTurno:
                 return centroInvestigacion.getNombre()
 
     def agruparPorCI(self):
-        RtXCI = []
-        pass
+        RtXCI = {}
+        
+        for rt in self._datosRts:
+            ci = rt.get('CI_nombre')
+            cis = RtXCI.keys()
+            rt = {'nroInv' : rt.get('nroInv'), 
+                    'modMarca' : rt.get('modMarca'),
+                        'estadoActual' : rt.get('estadoActual')
+            }
+            if ci in cis:
+                RtXCI[ci].append(rt)
+            else:
+                RtXCI[ci] = [rt]
+
+        return RtXCI
 
     def asignarColorPorEstado(self):
         rts_disponibles = []

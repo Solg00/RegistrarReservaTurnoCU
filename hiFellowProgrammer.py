@@ -20,9 +20,15 @@ rt2 =  RecursoTecnologico(21312132,'10/10/2021','','','','',mod3,'','','')
 
 print(rt2.miModeloYMarca([m1,m2]))
 
-p = [{'id':121312},{'id': 21321}]
+p = [{'ci':'UTN FRC', 'nro_Inv': 1},{'ci': 'UTN FRBA', 'nro_Inv': 2},{'ci':'UTN FRC', 'nro_Inv': 23131},{'ci':'UTN FRBA', 'nro_Inv': 231312}]
 
 
-for i in p:
-    if i.get('id')== 121312:
-        print(True)
+col = {}
+
+for o in p:
+    if o.get('ci') in col.keys():
+        col[o.get('ci')].append({'nro_Inv': o.get('nro_Inv')})
+    else:
+        col[ o.get('ci')] = [{'nro_Inv': o.get('nro_Inv')}]
+
+print(col)
