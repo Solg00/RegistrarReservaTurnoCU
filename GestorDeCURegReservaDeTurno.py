@@ -148,15 +148,24 @@ class GestorDeCURegReservaDeTurno:
                 turnosAgrupados[fechaTurno].append(turno)
             else:
                 turnosAgrupados[fechaTurno].append(turno)
+        return turnosAgrupados
 
     
     def asignarColorTurnoXDisp(self):
-        turnosXColores = []
-        turno_disp = []
-        turno_reserva_pend = []
-        turno_reservado = []
+        turnosPorColor = {"Azul": [],
+                          "Gris": [],
+                          "Rojo": []}
 
-        pass
+        for turno in self._turnosRT:
+            estadoTurno = turno.cambiosDeEstadoTurno[-1].estado.getNombre()
+            if estadoTurno == "Disponible":
+                turnosPorColor["Azul"].append(turno)
+            if estadoTurno == "Con reserva pendiente de confirmacion":
+                turnosPorColor["Gris"].append(turno)
+            if estadoTurno.esReservado():
+                turnosPorColor["Rojo"].append(turno)
+
+        return turnosPorColor
 
     def confirmarTurno(self):
         estadoAsignar = None
