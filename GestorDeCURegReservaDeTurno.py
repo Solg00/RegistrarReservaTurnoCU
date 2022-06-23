@@ -134,7 +134,7 @@ class GestorDeCURegReservaDeTurno:
         self._turnosRT = self._RTSeleccionado.buscarTurnosDelRT()
     
     def ordenarTurnos(self):
-        sorted(self._turnosRT, key=lambda x: x.fechaHoraInicio)
+        self._turnosRT = sorted(self._turnosRT, key=lambda x: x.fechaHoraInicio)
         #BUSCAR ALGORITMO DE ORDENAMIENTO. ORD POR FECHAS
     
     def agruparTurnos(self):
