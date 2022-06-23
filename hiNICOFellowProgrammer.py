@@ -33,7 +33,6 @@ def asignarColorTurnoXDisp(turnos):
                           "Rojo": []}
 
         for turno in turnos:
-            print(turno.cambiosDeEstadoTurno[-1].estado.getNombre())
             estadoTurno = turno.cambiosDeEstadoTurno[-1].estado.getNombre()
             if estadoTurno == "Disponible":
                 turnosPorColor["Azul"].append(turno)
@@ -82,5 +81,5 @@ turnos.append(turno3)
 turnosAgrupados = agruparTurnos(turnos)
 turnosPorColor = asignarColorTurnoXDisp(turnos)
 
-for key in 
+
 
