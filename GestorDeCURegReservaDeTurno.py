@@ -1,6 +1,6 @@
 
 from datetime import datetime
-
+from InterfazDeTurno import InterfazDeReservaTurno as interfazT
 
 class GestorDeCURegReservaDeTurno:
     def __init__(self,RTs,tiposRT,CIs,sesion,estados) -> None:
@@ -12,6 +12,7 @@ class GestorDeCURegReservaDeTurno:
 
         self._datosRts = []
         self._tipoRTSeleccionado = None
+        self._RtXCI = {}
         self._RTSeleccionado = None
         self._usuarioLogueado = None
         self._ciDelRT = None
@@ -20,17 +21,21 @@ class GestorDeCURegReservaDeTurno:
         self._envioNotifSeleccionado = None
         self._confirmacion = ''
         
-    def registrarReservaTurno():
-        pass
+    def registrarReservaTurno(self):
+        print('Init')
+        self.buscarTiposRT()
 
     def buscarTiposRT(self):
         nombresRts = []
         for tipo in self.tiposRT:
             nombresRts.append(tipo.getNombre())
-        return nombresRts
+        
+        interfazT.mostrarTiposRT(nombresRts)
+
     
     def tomarSeleccionTipoRT(self, selected):
         self._tipoRTSeleccionado = selected
+        self.buscarRT()
 
     def tomarSeleccionRT(self, selected):
         self._RTSeleccionado = selected
@@ -46,11 +51,14 @@ class GestorDeCURegReservaDeTurno:
         self._confirmacion  = selected
 
     def buscarRT(self):
-        datosRts = []
         for rt in self._recursosTecnologicos:
             if rt.sosRTDelTipoSeleccionado(self._tipoRTSeleccionado):
-                self.obtenerDatosRT(rt,datosRts)
-        return datosRts
+                self.obtenerDatosRT(rt)
+        self.agruparPorCI()
+        self.asignarColorPorEstado()
+        
+        #return datosRts
+        
                 
 
 
@@ -67,7 +75,6 @@ class GestorDeCURegReservaDeTurno:
                 'CI_nombre' : rt_CI,
             }
         )
-        return self._datosRTs
                 
     def obtenerCIDelRT(self,rt):
         for centroInvestigacion in self._centrosInvestigacion:
@@ -75,21 +82,19 @@ class GestorDeCURegReservaDeTurno:
                 return centroInvestigacion.getNombre()
 
     def agruparPorCI(self):
-        RtXCI = {}
-        
+        '''Agrupa los RTs por el CI a los que pertenezcan'''
         for rt in self._datosRts:
             ci = rt.get('CI_nombre')
-            cis = RtXCI.keys()
+            cis = self.RtXCI.keys()
             rt = {'nroInv' : rt.get('nroInv'), 
                     'modMarca' : rt.get('modMarca'),
                         'estadoActual' : rt.get('estadoActual')
             }
             if ci in cis:
-                RtXCI[ci].append(rt)
+                self.RtXCI[ci].append(rt)
             else:
-                RtXCI[ci] = [rt]
+                self.RtXCI[ci] = [rt]
 
-        return RtXCI
 
     def asignarColorPorEstado(self):
         rts_disponibles = []
