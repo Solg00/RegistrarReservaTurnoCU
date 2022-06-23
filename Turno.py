@@ -52,11 +52,10 @@ class Turno:
     def getDatosTurno(self):
         return self
 
-    def estoyDisponible(self):
+    def buscarEstadoActual(self):
         for cambioEstado in self.cambiosDeEstadoTurno:
-            if cambioEstado.sosEstadoActual() and cambioEstado.nombre == "Disponible":
-                return True
-        return False
+            if cambioEstado.sosEstadoActual():
+                return cambioEstado
 
     # El estadoReservado se lo pasaria el gestor despues de buscar entre los estados
     def reservar(self, estadoReservado):
