@@ -1,5 +1,6 @@
 
 from datetime import datetime
+from datetime import date
 from InterfazDeTurno import InterfazDeReservaTurno as interfazT
 
 class GestorDeCURegReservaDeTurno:
