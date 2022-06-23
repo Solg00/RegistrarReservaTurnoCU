@@ -133,12 +133,21 @@ class GestorDeCURegReservaDeTurno:
         self._turnosRT = self._RTSeleccionado.buscarTurnosDelRT()
     
     def ordenarTurnos(self):
-        pass
+        sorted(self._turnosRT, key=lambda x: x.fechaHoraInicio)
         #BUSCAR ALGORITMO DE ORDENAMIENTO. ORD POR FECHAS
     
     def agruparTurnos(self):
-        pass
-        #Por dia
+        turnosAgrupados = {}
+        for turno in self._turnosRT:
+            turnosDia = []
+            fechaTurno = turno.fechaHoraInicio.date()
+            fechas = turnosAgrupados.keys()
+            if fechaTurno not in fechas:
+                turnosAgrupados[fechaTurno] = turnosDia
+                turnosAgrupados[fechaTurno].append(turno)
+            else:
+                turnosAgrupados[fechaTurno].append(turno)
+
     
     def asignarColorTurnoXDisp(self):
         turnosXColores = []
@@ -160,4 +169,3 @@ class GestorDeCURegReservaDeTurno:
 
     def generarNotificacionConDatosTurno(self):
         pass
-        
