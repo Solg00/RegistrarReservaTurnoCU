@@ -32,24 +32,48 @@ class InterfazDeReservaTurno():
         tipoRTSeleccionado= self.combo_tiposRT.get()
         gestor.tomarSeleccionTipoRT(tipoRTSeleccionado)
 
-    def mostrarRTs(self, cisRT):
+    def mostrarRTs(self, cisRT:dict):
+        def fixed_map(option): #Función necesaria para tkinter 8.6>>> y python 3.8
+            # Returns the style map for 'option' with any styles starting with
+            # ("!disabled", "!selected", ...) filtered out
+
+            # style.map() returns an empty list for missing options, so this should
+            # be future-safe
+                return [elm for elm in style.map("Treeview", query_opt=option)
+                        if elm[:2] != ("!disabled", "!selected")]
+
         grillaRTs = ttk.Treeview(self.ventana,columns=(1,2,3,4),show='headings')
         grillaRTs.pack()
+        style = ttk.Style()
+        style.map("Treeview", 
+          foreground=fixed_map("foreground"),
+          background=fixed_map("background"))
+        
         grillaRTs.heading(1,text='Centro Investigacion')
         grillaRTs.heading(2,text='Nro Inventario')
         grillaRTs.heading(3,text='Modelo y Marca')
         grillaRTs.heading(4,text='Estado')
-        values = []
-        CIs = list(cisRT.keys())
-        for i in (len(CIs)-1):
-            ci_nombre = CIs[i]            
-            for rt in cisRT[ci_nombre]:
-                tupla_tittle = (ci_nombre,'','','')
-                tupla_rt = ('',cisRT['nroInv'],cisRT['modMarca'],cisRT['estadoActual'])
-                values.append(tupla_tittle)
-                values.append(tupla_rt)
-        #Treeview
+        grillaRTs.tag_configure('Azul',background='blue')
+        grillaRTs.tag_configure('Verde',background='green')
+        grillaRTs.tag_configure('Gris',background='grey')
+        grillaRTs.tag_configure('CI',background='black',foreground='white')
 
+
+
+        CIs = list(cisRT.keys())
+        print('cis', CIs)
+        for i in range((len(CIs))):
+            ci_nombre = CIs[i]  
+            print(ci_nombre)
+            grillaRTs.insert('',tk.END,values=[ci_nombre,'','',''],tags='CI')
+            for rt in cisRT[ci_nombre]:
+                print(rt)
+                if rt['estadoActual']['color'] == 'Azul':
+                    grillaRTs.insert('', tk.END, values=['',rt['nroInv'],rt['modMarca'],rt['estadoActual']['nombre']],tags=('Azul'))
+                elif rt['estadoActual']['color'] == 'Verde':
+                    grillaRTs.insert('', tk.END, values=['',rt['nroInv'],rt['modMarca'],rt['estadoActual']['nombre']],tags=('Verde'))
+                else: # rt['estadoActual']['color'] == 'Gris':
+                    grillaRTs.insert('', tk.END, values=['',rt['nroInv'],rt['modMarca'],rt['estadoActual']['nombre']],tags=('Gris'))
 
 
     ventana.mainloop()

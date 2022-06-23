@@ -100,18 +100,14 @@ class GestorDeCURegReservaDeTurno:
     def asignarColorPorEstado(self):
         for rt in self._datosRts:
             if rt.get('estadoActual') == 'Disponible':
-                rts_disponibles.append(rt)
+                rt['estadoActual']={'nombre' : rt.get('estadoActual'), 'color' : 'Azul' }
             elif rt.get('estadoActual') == 'En Mantenimiento':
-                rts_en_mant.append(rt)
+                rt['estadoActual']={'nombre' : rt.get('estadoActual'), 'color' : 'Verde' }
             elif rt.get('estadoActual') == 'Con inicio de mantenimiento correctivo':
-                rts_mant_correctivo.append(rt)
+                rt['estadoActual']={'nombre' : rt.get('estadoActual'), 'color' : 'Gris' }
             else: 
                 pass
-        rtXColores = [{'color': 'Azul','rts' : rts_disponibles},
-                        {'color': 'Verde','rts' : rts_en_mant},
-                            {'color': 'Gris','rts' : rts_mant_correctivo},
-                    ]
-        return rtXColores
+
 
     def obtenerUsuarioLogueado(self):
         self._usuarioLogueado = self._sesion.getUsuarioSesion()
@@ -135,7 +131,6 @@ class GestorDeCURegReservaDeTurno:
     
     def ordenarTurnos(self):
         self._turnosRT = sorted(self._turnosRT, key=lambda x: x.fechaHoraInicio)
-        #BUSCAR ALGORITMO DE ORDENAMIENTO. ORD POR FECHAS
     
     def agruparTurnos(self):
         turnosAgrupados = {}
