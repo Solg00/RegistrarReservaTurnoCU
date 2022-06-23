@@ -32,5 +32,25 @@ class InterfazDeReservaTurno():
         tipoRTSeleccionado= self.combo_tiposRT.get()
         gestor.tomarSeleccionTipoRT(tipoRTSeleccionado)
 
+    def mostrarRTs(self, cisRT):
+        grillaRTs = ttk.Treeview(self.ventana,columns=(1,2,3,4),show='headings')
+        grillaRTs.pack()
+        grillaRTs.heading(1,text='Centro Investigacion')
+        grillaRTs.heading(2,text='Nro Inventario')
+        grillaRTs.heading(3,text='Modelo y Marca')
+        grillaRTs.heading(4,text='Estado')
+        values = []
+        CIs = list(cisRT.keys())
+        for i in (len(CIs)-1):
+            ci_nombre = CIs[i]            
+            for rt in cisRT[ci_nombre]:
+                tupla_tittle = (ci_nombre,'','','')
+                tupla_rt = ('',cisRT['nroInv'],cisRT['modMarca'],cisRT['estadoActual'])
+                values.append(tupla_tittle)
+                values.append(tupla_rt)
+        #Treeview
+
+
+
     ventana.mainloop()
  

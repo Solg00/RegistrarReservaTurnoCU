@@ -1,34 +1,32 @@
 """HELLO BUDDY! You might use this module to run some tests or leave comments for your fellow Programmers to see"""
-from CambioEstadoRT import CambioEstadoRT
-from Estado import Estado
-from Marca import Marca
-from Modelo import Modelo
-from RecursoTecnologico import RecursoTecnologico
-mod1 = Modelo('Modelo 1')
-mod2 = Modelo('modelo2')
-mod3 = Modelo('mod 3')
-m1 = Marca('Marca1',[mod1,mod3])
-m2= Marca('Marca 2', [mod2] )
+from tkinter import *
+from tkinter import ttk
 
-e1= Estado('Reservado','','',False,True)
-e2= Estado('Disponible','','',True,False)
+ws = Tk()
+ws.title("PythonGuides")
 
-ce1= CambioEstadoRT(e1,'10/10/2021 10:20')
-ce2=CambioEstadoRT(e2,'12/12/2021 10:20')
-rt =  RecursoTecnologico(21312132,'10/10/2021','','','','',mod1,'',[ce1,ce2],'')
-rt2 =  RecursoTecnologico(21312132,'10/10/2021','','','','',mod3,'','','')
+tv = ttk.Treeview(ws, columns=(1, 2, 3), show='headings', height=8)
+tv.pack()
 
-print(rt2.miModeloYMarca([m1,m2]))
+tv.heading(1, text="name")
+tv.heading(2, text="eid")
+tv.heading(3, text="Salary")
 
-p = [{'ci':'UTN FRC', 'nro_Inv': 1},{'ci': 'UTN FRBA', 'nro_Inv': 2},{'ci':'UTN FRC', 'nro_Inv': 23131},{'ci':'UTN FRBA', 'nro_Inv': 231312}]
+def update_item():
+    selected = tv.focus()
+    temp = tv.item(selected, 'values')
+    sal_up = float(temp[2]) + float(temp[2]) * 0.05
+    tv.item(selected, values=(temp[0], temp[1], sal_up))
 
+tv.insert(parent='', index=0, iid=0, values=("vineet", "e11", 1000000.00))
+tv.insert(parent='', index=1, iid=1, values=("anil", "e12", 120000.00))
+tv.insert(parent='', index=2, iid=2, values=("ankit", "e13", 41000.00))
+tv.insert(parent='', index=3, iid=3, values=("Shanti", "e14", 22000.00))
 
-col = {}
+Button(ws, text='Increment Salary', command=update_item).pack()
 
-for o in p:
-    if o.get('ci') in col.keys():
-        col[o.get('ci')].append({'nro_Inv': o.get('nro_Inv')})
-    else:
-        col[ o.get('ci')] = [{'nro_Inv': o.get('nro_Inv')}]
+style = ttk.Style()
+style.theme_use("default")
+style.map("Treeview")
 
-print(col)
+ws.mainloop()

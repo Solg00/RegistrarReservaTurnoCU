@@ -97,10 +97,6 @@ class GestorDeCURegReservaDeTurno:
 
 
     def asignarColorPorEstado(self):
-        rts_disponibles = []
-        rts_en_mant = []
-        rts_mant_correctivo = []
-        rtXColores = []
         for rt in self._datosRts:
             if rt.get('estadoActual') == 'Disponible':
                 rts_disponibles.append(rt)
