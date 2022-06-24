@@ -302,7 +302,8 @@ class GestorDeCURegReservaDeTurno:
             self._sesion = sesion 
             self._estados = estados
             self._marcas = marcas
-            self._datosRts = []
+            
+            self.datosRts = []
             self._tipoRTSeleccionado = None
             self._RtXCI = {}
             self._cientificosCIRT = None
@@ -365,7 +366,7 @@ class GestorDeCURegReservaDeTurno:
         rt_nroInv = rt.getNumeroInventario()
         rt_modMarc = rt.miModeloYMarca(self._marcas)
         rt_CI = self.obtenerCIDelRT(rt)
-        self._datosRTs.append(
+        self.datosRts.append(
             {
                 'nroInv' : rt_nroInv,
                 'modMarca' : rt_modMarc,
@@ -381,7 +382,7 @@ class GestorDeCURegReservaDeTurno:
 
     def agruparPorCI(self):
         '''Agrupa los RTs por el CI a los que pertenezcan'''
-        for rt in self._datosRts:
+        for rt in self.datosRts:
             ci = rt.get('CI_nombre')
             cis = self._RtXCI.keys()
             rt = {'nroInv' : rt.get('nroInv'), 
@@ -395,7 +396,7 @@ class GestorDeCURegReservaDeTurno:
 
 
     def asignarColorPorEstado(self):
-        for rt in self._datosRts:
+        for rt in self.datosRts:
             if rt.get('estadoActual') == 'Disponible':
                 rt['estadoActual']={'nombre' : rt.get('estadoActual'), 'color' : 'Azul' }
             elif rt.get('estadoActual') == 'En Mantenimiento':
