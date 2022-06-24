@@ -1,5 +1,6 @@
 from tkinter import Label, StringVar, ttk,messagebox
 import tkinter as tk
+from tkcalendar import Calendar
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
 import datosEjemplo
 
@@ -19,6 +20,9 @@ class InterfazDeReservaTurno():
         self.cell_EstadoRTSeleccionado = None
         self.combo_envioNotif = None
 
+        self.cal = None
+        self.btnPedirSeleccionTurno = None
+
         self.tiposRT = None
         self.tipoRTSeleccionado = None
         self.rTSeleccionado = None
@@ -26,15 +30,14 @@ class InterfazDeReservaTurno():
         self.tiposEnvioNotif = None
         self.envioNotifSeleccionado = None
         #Empieza funcionalidad
-        self.opcionReservarTurnoRT()
 
-        self.ventana = root
+        self.ventana = tk.Tk()
         self.ventana.geometry("900x900")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
-        self.ventana.mainloop(self.ventana)
-
         self.frame = tk.Frame(self.ventana)
         self.frame.pack()
+        self.opcionReservarTurnoRT()
+        self.ventana.mainloop()
 
     #Utils
     def clear_window(self):
@@ -213,4 +216,58 @@ class InterfazDeReservaTurno():
             print('****CANCELAR****')
             gestor.finCU()
             self.close_window()
- 
+
+
+    def mostrarTurnos(self, turnos, turnosColor):
+
+        self.cal = Calendar(self.ventana, selectbackground="green", normalbackground="red", weekendbackground="red")
+        self.cal.grid(row=0, column=0, columnspan=2)
+
+        for fecha in turnos.keys():
+            for turno in turnos[fecha]:
+                if turno.buscarEstadoActual().estado.getNombre() == "Disponible":
+                    self.cal.calevent_create(fecha, "", tags="ConTurnos")
+
+        self.cal.tag_config("ConTurnos", background="blue")
+
+        def pedirSeleccionDeTurno():
+            for widget in self.ventana.winfo_children():
+                if widget == self.cal or widget == self.btnPedirSeleccionTurno:
+                    continue
+                widget.destroy()
+
+            def tomarSeleccionTurno(turnoSelect):
+                self.turnoSeleccionado = turnoSelect
+
+
+            date1 = self.cal.get_date().split("/")
+            date1 = [int(a) for a in date1]
+            fechaSeleccionada = date(day=date1[1], month=date1[0], year=date1[2] + 2000)
+            column = 2
+            for turno in turnos[fechaSeleccionada]:
+                column += 1
+                if turno in turnosColor["Azul"]:
+                    lblAzul = tk.Label(self.ventana,
+                                       text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
+                                       "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="blue")
+                    lblAzul.grid(row=column, column=0)
+                    btnReservar = tk.Button(self.ventana, text="Reservar", command=tomarSeleccionTurno(turno))
+                    btnReservar.grid(row=column, column=1)
+                if turno in turnosColor["Rojo"]:
+                    lblRojo = tk.Label(self.ventana,
+                                       text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
+                                       "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="red")
+                    lblRojo.grid(row=column, column=0)
+                if turno in turnosColor["Gris"]:
+                    lblGris = tk.Label(self.ventana,
+                                       text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
+                                       "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="grey")
+                    lblGris.grid(row=column, column=0)
+
+        # TODO: Permitir seleccion solo de los diponibles
+        self.btnPedirSeleccionTurno = tk.Button(self.ventana, text="Seleccionar Fecha", command=pedirSeleccionDeTurno, background="orange")
+        self.btnPedirSeleccionTurno.grid(row=2, column=0, columnspan=2)
+
+
+if __name__ == '__main__':
+    InterfazDeReservaTurno()
