@@ -67,8 +67,8 @@ user1=Usuario("Edu12","pass1",True)
 user2=Usuario("Mica32","pass2",True)
 
 # >>> Cientificos
-cient1=PersonalCientifico(7001,"Eduardo","Apellido1",22778484,"mail1","mail2",318245685,user1)
-cient2=PersonalCientifico(7032,"Micaela","Apellido2",24778484,"mail3","mail4",318245685,user2)
+cient1=PersonalCientifico(7001,"Eduardo","Apellido1",22778484,"mail1","mail2",'318245685',user1)
+cient2=PersonalCientifico(7032,"Micaela","Apellido2",24778484,"mail3","mail4",'318245685',user2)
 
 
 # >>> Asignaciones Cientificos

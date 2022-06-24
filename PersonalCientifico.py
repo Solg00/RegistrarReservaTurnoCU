@@ -53,7 +53,9 @@ class PersonalCientifico():
         else:
             return False
 
-        
+    def getNroTel(self):
+        return self.telefonoCel
+            
     def getEmail(self) -> str:
         return self.correo
 

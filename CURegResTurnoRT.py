@@ -6,8 +6,8 @@ import datosEjemplo as dt
 import datetime
 from datetime import date,datetime
 from functools import partial
-import InterfazDeEmail
-from InterfazDeWhatsApp import InterfazDeWhatsApp as wp
+from InterfazDeEmail import InterfazDeEmail
+from InterfazDeWhatsApp import InterfazDeWhatsApp
 
 
 '''INTERFAZ DE CU'''
@@ -320,6 +320,7 @@ class GestorDeCURegReservaDeTurno:
             self.fechaHoraActual = None
             self._turnosPorColor = None
             self.emailCientifico = None
+            self.nro_tel = None
     def registrarReservaTurno(self):
         print('***GESTOR INICIO CU ***')
         self.buscarTiposRT()
@@ -483,11 +484,8 @@ class GestorDeCURegReservaDeTurno:
         
         self._turnoSeleccionado.reservar(estadoAsignar)
 
-        if self._envioNotifSeleccionado == 'Email':
-            self.emailCientifico = self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
-            self.generarNotificacionConDatosTurno()
-        else:
-            pass
+        self.generarNotificacionConDatosTurno()
+ 
 
     def generarNotificacionConDatosTurno(self):
         mensaje = "Notificacion enviada a:" + \
@@ -496,17 +494,20 @@ class GestorDeCURegReservaDeTurno:
                   "\nHora de Inicio: " + self._turnoSeleccionado.fechaHoraInicio.time().strftime("%H:%M") + \
                   "\nHora de Fin: " + self._turnoSeleccionado.fechaHoraFin.time().strftime("%H:%M")
         if self._envioNotifSeleccionado == "Email":
-            InterfazDeEmail.InterfazDeEmail.enviarNotificacion(intMail,self.emailCientifico, mensaje)
+            self.emailCientifico = self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
+            InterfazDeEmail.enviarnotificacion(intMail,self.emailCientifico,mensaje)
         else:
-            wp.enviarNotificacion(self._cientificosCIRT.telefonoCelular, mensaje)
+            self.nro_tel = self._usuarioLogueado.getNroCientifico(self._ciDelRT.cientificos)
+            InterfazDeWhatsApp.enviarnotificacion(intWP,self.nro_tel, mensaje)
 
     def FinCU(self):
-        pass
+        print('****Fin CU*****')
 
 
 if __name__ == '__main__':
     ventana = tk.Tk()
     interfaz = InterfazDeReservaTurno(ventana)
     gestor = GestorDeCURegReservaDeTurno(dt.rTRepo, dt.rtTipoRepo, dt.centrosRepo, dt.sesion, dt.estadosRepo,dt.marcasRepo)
-    intMail= InterfazDeEmail.InterfazDeEmail()
+    intMail= InterfazDeEmail()
+    intWP = InterfazDeWhatsApp()
     ventana.mainloop()

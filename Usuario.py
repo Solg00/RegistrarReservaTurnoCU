@@ -23,5 +23,9 @@ class Usuario:
         for cientifico in cientificos:
             if self.nomUsuario == cientifico.personalCientifico.usuario.nomUsuario:
                 return cientifico.personalCientifico.getEmail()
-                
+    
+    def getNroCientifico(self,cientificos):
+        for cientifico in cientificos:
+            if self.nomUsuario == cientifico.personalCientifico.usuario.nomUsuario:
+                return cientifico.personalCientifico.getNroTel()
 
