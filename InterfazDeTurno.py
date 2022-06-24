@@ -1,10 +1,10 @@
-from select import select
 from tkinter import Label, StringVar, ttk,messagebox
 import tkinter as tk
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
+import datosEjemplo
 
 class InterfazDeReservaTurno():
-    def __init__(self) -> None:
+    def __init__(self,root) -> None:
         self.combo_tiposRT = None
         self.grillaRTs = None
         self.button_seleccionarRT = None
@@ -28,12 +28,12 @@ class InterfazDeReservaTurno():
         #Empieza funcionalidad
         self.opcionReservarTurnoRT()
 
-        self.ventana = tk.Tk()
+        self.ventana = root
         self.ventana.geometry("900x900")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
-        self.ventana.mainloop()
+        self.ventana.mainloop(self.ventana)
 
-        self.frame = tk.Frame(ventana)
+        self.frame = tk.Frame(self.ventana)
         self.frame.pack()
 
     #Utils

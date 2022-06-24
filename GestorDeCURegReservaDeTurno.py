@@ -53,13 +53,11 @@ class GestorDeCURegReservaDeTurno:
 
     def buscarRT(self):
         for rt in self._recursosTecnologicos:
-            if rt.sosRTDelTipoSeleccionado(self._tipoRTSeleccionado):
+            if rt.sosRTDelTipoSeleccionado(self._tipoRTSeleccionado) and rt.buscarEstadoActual().esReservable():
                 self.obtenerDatosRT(rt)
         self.agruparPorCI()
         self.asignarColorPorEstado()
-        
-        #return datosRts
-        
+                
                 
 
 
@@ -112,7 +110,7 @@ class GestorDeCURegReservaDeTurno:
     def obtenerUsuarioLogueado(self):
         self._usuarioLogueado = self._sesion.getUsuarioSesion()
 
-    def obtenerCIRT(self):
+    def obtenerCIRTSeleccionado(self):
        self._ciDelRT = self._RTSeleccionado.getMiCI(self._centrosInvestigacion)
 
     def verificarCientificoDeCIRT(self):
