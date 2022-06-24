@@ -295,13 +295,13 @@ class InterfazDeReservaTurno():
 
 
 class GestorDeCURegReservaDeTurno:
-    def __init__(self,RTs,tiposRT,CIs,sesion,estados) -> None:
+    def __init__(self,RTs,tiposRT,CIs,sesion,estados, marcas) -> None:
         self._recursosTecnologicos = RTs
         self._tiposRT = tiposRT
         self._centrosInvestigacion = CIs
         self._sesion = sesion 
         self._estados = estados
-
+        self._marcas = marcas
         self._datosRts = []
         self._tipoRTSeleccionado = None
         self._RtXCI = {}
@@ -363,7 +363,7 @@ class GestorDeCURegReservaDeTurno:
     def obtenerDatosRT(self,rt):
         rt_estado_actual = rt.buscarEstadoActual().getNombreEstado()
         rt_nroInv = rt.getNumeroInventario()
-        rt_modMarc = rt.miModeloYMarca()
+        rt_modMarc = rt.miModeloYMarca(self._marcas)
         rt_CI = self.obtenerCIDelRT(rt)
         self._datosRTs.append(
             {
@@ -488,5 +488,5 @@ class GestorDeCURegReservaDeTurno:
 if __name__ == '__main__':
     ventana = tk.Tk()
     interfaz = InterfazDeReservaTurno(ventana)
-    gestor = GestorDeCURegReservaDeTurno(dt.rTRepo, dt.rtTipoRepo, dt.centrosRepo, dt.sesion, dt.estadosRepo)
+    gestor = GestorDeCURegReservaDeTurno(dt.rTRepo, dt.rtTipoRepo, dt.centrosRepo, dt.sesion, dt.estadosRepo,dt.marcasRepo)
     ventana.mainloop()
