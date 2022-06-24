@@ -48,7 +48,7 @@ class InterfazDeReservaTurno():
         #Empieza funcionalidad
 
         self.ventana = ventana
-        self.ventana.geometry("500x500")
+        self.ventana.geometry("700x500")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
         self.frame = tk.Frame(self.ventana)
         self.frame.pack()
@@ -235,7 +235,6 @@ class InterfazDeReservaTurno():
             self.confirmacion = False
             gestor.tomarConfirmacion(self.confirmacion)
             print('****CANCELAR****')
-            self.close_window()
 
     def tomarSeleccionTurno(self, turnoSelect):
         self.turnoSeleccionado = turnoSelect
@@ -499,9 +498,10 @@ class GestorDeCURegReservaDeTurno:
         else:
             self.nro_tel = self._usuarioLogueado.getNroCientifico(self._ciDelRT.cientificos)
             InterfazDeWhatsApp.enviarnotificacion(intWP,self.nro_tel, mensaje)
-
+        self.FinCU()
     def FinCU(self):
         print('****Fin CU*****')
+        InterfazDeReservaTurno.close_window(interfaz)
 
 
 if __name__ == '__main__':
