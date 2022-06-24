@@ -203,7 +203,7 @@ class InterfazDeReservaTurno():
         self.pedirSeleccionEnvioNotificacion()
 
     def pedirSeleccionEnvioNotificacion(self):
-        self.tiposEnvioNotif = {'Whatsapp','Email'}
+        self.tiposEnvioNotif = ('Whatsapp','Email')
         self.label_seleccionEnvioNotif = tk.Label(self.frame,text="Seleccione cómo desea que se le envíe la notificación:")
         self.label_seleccionEnvioNotif.grid(row=5,column=0)
         self.combo_envioNotif = ttk.Combobox(self.frame,state='readonly',values=self.tipoEnvioNotif)
