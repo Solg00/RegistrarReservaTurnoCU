@@ -90,3 +90,4 @@ class RecursoTecnologico:
             if cambioEstado.sosEstadoActual():
                 estadoActual = cambioEstado
         return estadoActual
+
