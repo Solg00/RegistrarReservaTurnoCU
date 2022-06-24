@@ -3,9 +3,10 @@ from Turno import Turno
 from datetime import date
 from datetime import datetime
 
-class InterfazDeEmail:
-
-    def enviarnotificacion(self, email, mensaje):
+class InterfazDeEmail():
+    def __init__(self) -> None:
+        pass
+    def enviarnotificacion(self,email, mensaje):
         messagebox.showinfo(title="Notificacion Enviada a " + email, message=mensaje)
 
 

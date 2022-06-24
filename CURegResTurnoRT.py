@@ -6,7 +6,7 @@ import datosEjemplo as dt
 import datetime
 from datetime import date,datetime
 from functools import partial
-from InterfazDeEmail import InterfazDeEmail as email
+import InterfazDeEmail
 from InterfazDeWhatsApp import InterfazDeWhatsApp as wp
 
 
@@ -31,10 +31,9 @@ class InterfazDeReservaTurno():
         self.label_fechaFinTurnoSelec = None
         self.cell_fechaInicioTurnoSelec = None
         self.label_seleccionEnvioNotif = None
-        self.combo_envioNotif = None
         self.btn_confirmacion = None
         self.btn_cancelar = None
-
+       
 
         self.cal = None
         self.btnPedirSeleccionTurno = None
@@ -208,12 +207,12 @@ class InterfazDeReservaTurno():
         self.tiposEnvioNotif = ('Whatsapp','Email')
         self.label_seleccionEnvioNotif = tk.Label(self.frame,text="Seleccione cómo desea que se le envíe la notificación:")
         self.label_seleccionEnvioNotif.grid(row=5,column=0)
-        self.combo_envioNotif = ttk.Combobox(self.frame,state='readonly',values=self.tipoEnvioNotif)
+        self.combo_envioNotif = ttk.Combobox(self.frame,state='readonly',values=self.tiposEnvioNotif)
         self.combo_envioNotif.grid(row=5,column=1)
         self.combo_envioNotif.bind("<<ComboboxSelected>>", self.tomarSeleccionEnvioNotificacion)
 
 
-    def tomarSeleccionEnvioNotificacion(self):
+    def tomarSeleccionEnvioNotificacion(self,otro):
         self.envioNotifSeleccionado = self.combo_envioNotif.get()
         GestorDeCURegReservaDeTurno.tomarSeleccionEnvioNotificacion(gestor,self.envioNotifSeleccionado)
 
@@ -224,7 +223,7 @@ class InterfazDeReservaTurno():
         self.btn_confirmacion = tk.Button(self.frame,text='Confirmar',background='green',command=self.tomarConfirmacion)
         self.btn_confirmacion.grid(row=7,column=3)
         self.btn_cancelar = tk.Button(self.frame,text='Cancelar',background='red',command=self.cancelar)
-        self.btn_confirmacion.grid(row=7,column=4)
+        self.btn_cancelar.grid(row=7,column=4)
 
     def tomarConfirmacion(self):
         self.confirmacion = True
@@ -236,7 +235,6 @@ class InterfazDeReservaTurno():
             self.confirmacion = False
             gestor.tomarConfirmacion(self.confirmacion)
             print('****CANCELAR****')
-            gestor.finCU()
             self.close_window()
 
     def tomarSeleccionTurno(self, turnoSelect):
@@ -321,7 +319,7 @@ class GestorDeCURegReservaDeTurno:
             self._confirmacion = ''
             self.fechaHoraActual = None
             self._turnosPorColor = None
-
+            self.emailCientifico = None
     def registrarReservaTurno(self):
         print('***GESTOR INICIO CU ***')
         self.buscarTiposRT()
@@ -355,7 +353,10 @@ class GestorDeCURegReservaDeTurno:
 
     def tomarConfirmacion(self,selected):
         self._confirmacion  = selected
-        self.confirmarTurno()
+        if self._confirmacion:
+            self.confirmarTurno()
+        else:
+            self.FinCU()
 
     def buscarRT(self):
         for rt in self._recursosTecnologicos:
@@ -483,7 +484,7 @@ class GestorDeCURegReservaDeTurno:
         self._turnoSeleccionado.reservar(estadoAsignar)
 
         if self._envioNotifSeleccionado == 'Email':
-            self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
+            self.emailCientifico = self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
             self.generarNotificacionConDatosTurno()
         else:
             pass
@@ -495,7 +496,7 @@ class GestorDeCURegReservaDeTurno:
                   "\nHora de Inicio: " + self._turnoSeleccionado.fechaHoraInicio.time().strftime("%H:%M") + \
                   "\nHora de Fin: " + self._turnoSeleccionado.fechaHoraFin.time().strftime("%H:%M")
         if self._envioNotifSeleccionado == "Email":
-            interfazEmail.enviarNotificacion(self._usuarioLogueado.getEmailCientifico(), mensaje)
+            InterfazDeEmail.InterfazDeEmail.enviarNotificacion(intMail,self.emailCientifico, mensaje)
         else:
             wp.enviarNotificacion(self._cientificosCIRT.telefonoCelular, mensaje)
 
@@ -507,4 +508,5 @@ if __name__ == '__main__':
     ventana = tk.Tk()
     interfaz = InterfazDeReservaTurno(ventana)
     gestor = GestorDeCURegReservaDeTurno(dt.rTRepo, dt.rtTipoRepo, dt.centrosRepo, dt.sesion, dt.estadosRepo,dt.marcasRepo)
+    intMail= InterfazDeEmail.InterfazDeEmail()
     ventana.mainloop()
