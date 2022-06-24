@@ -48,7 +48,7 @@ class InterfazDeReservaTurno():
         #Empieza funcionalidad
 
         self.ventana = ventana
-        self.ventana.geometry("700x500")
+        self.ventana.geometry("800x500")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
         self.frame = tk.Frame(self.ventana)
         self.frame.pack()
