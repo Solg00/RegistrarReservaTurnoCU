@@ -1,16 +1,15 @@
 
 from datetime import datetime
 from datetime import date
-# from InterfazDeTurno import InterfazDeReservaTurno as interfaz
+from InterfazDeTurno import InterfazDeReservaTurno as interfaz
 
 class GestorDeCURegReservaDeTurno:
-    def __init__(self,RTs,tiposRT,CIs,sesion,estados, interfaz) -> None:
+    def __init__(self,RTs,tiposRT,CIs,sesion,estados) -> None:
         self._recursosTecnologicos = RTs
         self._tiposRT = tiposRT
         self._centrosInvestigacion = CIs
         self._sesion = sesion 
         self._estados = estados
-        self.interfaz = interfaz
 
         self._datosRts = []
         self._tipoRTSeleccionado = None
@@ -24,7 +23,7 @@ class GestorDeCURegReservaDeTurno:
         self._confirmacion = ''
         
     def registrarReservaTurno(self):
-        print('Init')
+        print('***GESTOR INICIO CU ***')
         self.buscarTiposRT()
 
     def buscarTiposRT(self):
@@ -32,7 +31,7 @@ class GestorDeCURegReservaDeTurno:
         for tipo in self._tiposRT:
             nombresRts.append(tipo.getNombre())
         
-        self.interfaz.mostrarTiposRT(nombresRts)
+        interfaz.mostrarTiposRT(nombresRts)
 
     
     def tomarSeleccionTipoRT(self, selected):
