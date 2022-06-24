@@ -55,10 +55,10 @@ turno10 = Turno(datetime(2022, 6, 20, 4, 0, 0), 4, datetime(2022, 6, 30, 12, 0, 
 turnosRepo = [turno1, turno2, turno3, turno4, turno5, turno6, turno7, turno8, turno9, turno10]
 
 # >>> RT
-rt1= RecursoTecnologico(1, "imagen.png", 0,  20, 22, mod1, tipo1, CambioEstadoRT(estadoDisponibleRt),[turno1,turno2,turno3,turno4,turno5])
-rt2= RecursoTecnologico(2, "imagen.png", 0,  20, 22, mod2, tipo1, CambioEstadoRT(estadoDisponibleRt),[turno6,turno7])
-rt3= RecursoTecnologico(3, "imagen.png", 0,  20, 22, mod3, tipo2, CambioEstadoRT(estadoDisponibleRt),[turno8,turno9,turno10])
-rt4= RecursoTecnologico(3, "imagen.png", 0,  20, 22, mod4, tipo2, CambioEstadoRT(estadoDisponibleRt),[])
+rt1= RecursoTecnologico(1, "imagen.png", 0,  20, 22, mod1, tipo1, [CambioEstadoRT(estadoDisponibleRt)],[turno1,turno2,turno3,turno4,turno5])
+rt2= RecursoTecnologico(2, "imagen.png", 0,  20, 22, mod2, tipo1, [CambioEstadoRT(estadoDisponibleRt)],[turno6,turno7])
+rt3= RecursoTecnologico(3, "imagen.png", 0,  20, 22, mod3, tipo2, [CambioEstadoRT(estadoDisponibleRt)],[turno8,turno9,turno10])
+rt4= RecursoTecnologico(3, "imagen.png", 0,  20, 22, mod4, tipo2, [CambioEstadoRT(estadoDisponibleRt)],[])
 rTRepo = [rt1, rt2, rt3, rt4]
 
 # >>> Usuarios

@@ -56,7 +56,7 @@ class RecursoTecnologico:
     # Metodos de clase
     def sosRTDelTipoSeleccionado(self,tipoSeleccionado)-> bool:
         '''Compara si el tipo del RT es igual al enviado por parametro y retorna un booleano'''
-        if self.tipoRT.nombre == tipoSeleccionado.nombre:
+        if self.tipoRT.nombre == tipoSeleccionado:
             return True
         else:
             return False
