@@ -5,6 +5,7 @@ from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
 import datosEjemplo as dt
 from datetime import datetime
 from datetime import date
+from functools import partial
 
 
 class InterfazDeReservaTurno():
@@ -235,6 +236,40 @@ class InterfazDeReservaTurno():
             self.close_window()
 
 
+    def tomarSeleccionTurno(self, turnoSelect):
+                self.turnoSeleccionado = turnoSelect
+
+    def pedirSeleccionDeTurno(self, turnos, turnosColor):
+        for widget in self.ventana.winfo_children():
+            if widget == self.cal or widget == self.btnPedirSeleccionTurno:
+                continue
+            widget.destroy()
+
+        date1 = self.cal.get_date().split("/")
+        date1 = [int(a) for a in date1]
+        fechaSeleccionada = date(day=date1[1], month=date1[0], year=date1[2] + 2000)
+        column = 2
+        for turno in turnos[fechaSeleccionada]:
+            column += 1
+            if turno in turnosColor["Azul"]:
+                lblAzul = tk.Label(self.ventana,
+                                   text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
+                                   "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="blue")
+                lblAzul.grid(row=column, column=0)
+                btnReservar = tk.Button(self.ventana, text="Reservar", command=partial(self.tomarSeleccionTurno, turno))
+                btnReservar.grid(row=column, column=1)
+            if turno in turnosColor["Rojo"]:
+                lblRojo = tk.Label(self.ventana,
+                                   text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
+                                   "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="red")
+                lblRojo.grid(row=column, column=0)
+            if turno in turnosColor["Gris"]:
+                lblGris = tk.Label(self.ventana,
+                                   text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
+                                   "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="grey")
+                lblGris.grid(row=column, column=0)
+
+
     def mostrarTurnos(self, turnos, turnosColor):
 
         self.cal = Calendar(self.ventana, selectbackground="green", normalbackground="red", weekendbackground="red")
@@ -247,47 +282,13 @@ class InterfazDeReservaTurno():
 
         self.cal.tag_config("ConTurnos", background="blue")
 
-        def pedirSeleccionDeTurno():
-            for widget in self.ventana.winfo_children():
-                if widget == self.cal or widget == self.btnPedirSeleccionTurno:
-                    continue
-                widget.destroy()
-
-            def tomarSeleccionTurno(turnoSelect):
-                self.turnoSeleccionado = turnoSelect
-
-
-            date1 = self.cal.get_date().split("/")
-            date1 = [int(a) for a in date1]
-            fechaSeleccionada = date(day=date1[1], month=date1[0], year=date1[2] + 2000)
-            column = 2
-            for turno in turnos[fechaSeleccionada]:
-                column += 1
-                if turno in turnosColor["Azul"]:
-                    lblAzul = tk.Label(self.ventana,
-                                       text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
-                                       "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="blue")
-                    lblAzul.grid(row=column, column=0)
-                    btnReservar = tk.Button(self.ventana, text="Reservar", command=tomarSeleccionTurno(turno))
-                    btnReservar.grid(row=column, column=1)
-                if turno in turnosColor["Rojo"]:
-                    lblRojo = tk.Label(self.ventana,
-                                       text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
-                                       "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="red")
-                    lblRojo.grid(row=column, column=0)
-                if turno in turnosColor["Gris"]:
-                    lblGris = tk.Label(self.ventana,
-                                       text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
-                                       "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="grey")
-                    lblGris.grid(row=column, column=0)
-
         # TODO: Permitir seleccion solo de los diponibles
-        self.btnPedirSeleccionTurno = tk.Button(self.ventana, text="Seleccionar Fecha", command=pedirSeleccionDeTurno, background="orange")
+        self.btnPedirSeleccionTurno = tk.Button(self.ventana, text="Seleccionar Fecha", command=partial(self.pedirSeleccionDeTurno, turnos, turnosColor), background="orange")
         self.btnPedirSeleccionTurno.grid(row=2, column=0, columnspan=2)
 
 
 if __name__ == '__main__':
     ventana = tk.Tk()
     interfaz = InterfazDeReservaTurno(ventana)
-    gestor = gestor(dt.rTRepo, dt.rtTipoRepo, dt.centrosRepo, dt.sesion, dt.estadosRepo, interfaz)
+    gestor = gestor(dt.rTRepo, dt.rtTipoRepo, dt.centrosRepo, dt.sesion, dt.estadosRepo)
     ventana.mainloop()
