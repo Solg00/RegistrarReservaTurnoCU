@@ -31,13 +31,12 @@ class InterfazDeReservaTurno():
         self.envioNotifSeleccionado = None
         #Empieza funcionalidad
 
-        self.ventana = tk.Tk()
+        self.ventana = root
         self.ventana.geometry("900x900")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
         self.frame = tk.Frame(self.ventana)
         self.frame.pack()
         self.opcionReservarTurnoRT()
-        self.ventana.mainloop()
 
     #Utils
     def clear_window(self):
