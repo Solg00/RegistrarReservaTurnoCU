@@ -20,12 +20,22 @@ class InterfazDeReservaTurno():
         self.cell_CIRTSeleccionado = None
         self.cell_EstadoRTSeleccionado = None
         self.combo_envioNotif = None
+        self.labelframe_turno = None
+        self.label_fechaInicioTurnoSelec = None
+        self.label_fechaFinTurnoSelec = None
+        self.cell_fechaInicioTurnoSelec = None
+        self.label_seleccionEnvioNotif = None
+        self.combo_envioNotif = None
+        self.btn_confirmacion = None
+        self.btn_cancelar = None
+
 
         self.cal = None
         self.btnPedirSeleccionTurno = None
 
         self.tiposRT = None
         self.tipoRTSeleccionado = None
+        self.cisRT = None
         self.rTSeleccionado = None
         self.cIDelRT = None
         self.tiposEnvioNotif = None
@@ -74,6 +84,8 @@ class InterfazDeReservaTurno():
         GestorDeCURegReservaDeTurno.tomarSeleccionTipoRT(gestor,self.tipoRTSeleccionado)
 
     def mostrarRTs(self, cisRT:dict):
+        self.cisRT = cisRT
+        #cisRT = {'UTN FRC': [{'nroInv': 1211,'modMarca':'121E-Philco','estadoActual':{'nombre':'Disponible','color':'Verde'}},{r2}],'UTN FRBA': [...]}
         self.clear_window()
 
         def fixed_map(option): #Función necesaria para tkinter 8.6>>> y python 3.8
@@ -103,13 +115,13 @@ class InterfazDeReservaTurno():
 
 
 
-        CIs = list(cisRT.keys())
+        CIs = list(self.cisRT.keys()) #['UTN FRC', 'UTN FRBA']
         print('cis', CIs)
         for i in range((len(CIs))):
             ci_nombre = CIs[i]  
             print(ci_nombre)
             self.grillaRTs.insert('',tk.END,values=[ci_nombre,'','',''],tags='CI')
-            for rt in cisRT[ci_nombre]:
+            for rt in self.cisRT[ci_nombre]:
                 print(rt)
                 if rt['estadoActual']['color'] == 'Azul':
                     self.grillaRTs.insert('', tk.END, values=['',rt['nroInv'],rt['modMarca'],rt['estadoActual']['nombre']],tags=('Azul'))
@@ -118,6 +130,7 @@ class InterfazDeReservaTurno():
                 else: # rt['estadoActual']['color'] == 'Gris':
                     self.grillaRTs.insert('', tk.END, values=['',rt['nroInv'],rt['modMarca'],rt['estadoActual']['nombre']],tags=('Gris'))
         self.pedirSeleccionDeRT()
+
     def pedirSeleccionDeRT(self):
         self.button_seleccionarRT = tk.Button(self.frame,text='Seleccionar Recurso',background='light grey',command=self.tomarSeleccionTipoRT)
         self.button_seleccionarRT.pack(side='bottom',pady=20) 
@@ -130,7 +143,7 @@ class InterfazDeReservaTurno():
             'modMarca' : item_selected[2],
             'estadoActual' : item_selected[3],
         }
-        gestor.tomarSeleccionRT(self.rTSeleccionado)
+        GestorDeCURegReservaDeTurno.tomarSeleccionRT(gestor,self.rTSeleccionado)
 
 
     def mostrarDatosRTSeleccionado(self):
@@ -286,6 +299,7 @@ class GestorDeCURegReservaDeTurno:
         self._datosRts = []
         self._tipoRTSeleccionado = None
         self._RtXCI = {}
+        self._cientificosCIRT = None
         self._RTSeleccionado = None
         self._usuarioLogueado = None
         self._ciDelRT = None
@@ -293,6 +307,7 @@ class GestorDeCURegReservaDeTurno:
         self._turnoSeleccionado = None
         self._envioNotifSeleccionado = None
         self._confirmacion = ''
+        self.fechaHoraActual = None
         
     def registrarReservaTurno(self):
         print('***GESTOR INICIO CU ***')
@@ -312,7 +327,7 @@ class GestorDeCURegReservaDeTurno:
 
     def tomarSeleccionRT(self, selected):
         self._RTSeleccionado = selected
-
+        self.obtenerUsuarioLogueado()
 
     def tomarSeleccionDeTurno(self, selected):
         self._turnoSeleccionado  = selected
@@ -327,9 +342,10 @@ class GestorDeCURegReservaDeTurno:
         for rt in self._recursosTecnologicos:
             if rt.sosRTDelTipoSeleccionado(self._tipoRTSeleccionado) and rt.buscarEstadoActual().esReservable():
                 self.obtenerDatosRT(rt)
-        self.agruparPorCI()
         self.asignarColorPorEstado()
-                
+        self.agruparPorCI()
+        
+        InterfazDeReservaTurno.mostrarRTs(interfaz,self._RtXCI)
                 
 
 
@@ -356,15 +372,15 @@ class GestorDeCURegReservaDeTurno:
         '''Agrupa los RTs por el CI a los que pertenezcan'''
         for rt in self._datosRts:
             ci = rt.get('CI_nombre')
-            cis = self.RtXCI.keys()
+            cis = self._RtXCI.keys()
             rt = {'nroInv' : rt.get('nroInv'), 
                     'modMarca' : rt.get('modMarca'),
                         'estadoActual' : rt.get('estadoActual')
             }
             if ci in cis:
-                self.RtXCI[ci].append(rt)
+                self._RtXCI[ci].append(rt)
             else:
-                self.RtXCI[ci] = [rt]
+                self._RtXCI[ci] = [rt]
 
 
     def asignarColorPorEstado(self):
@@ -381,22 +397,27 @@ class GestorDeCURegReservaDeTurno:
 
     def obtenerUsuarioLogueado(self):
         self._usuarioLogueado = self._sesion.getUsuarioSesion()
+        self.obtenerCIRTSeleccionado()
 
     def obtenerCIRTSeleccionado(self):
        self._ciDelRT = self._RTSeleccionado.getMiCI(self._centrosInvestigacion)
+       self.verificarCientificoDeCIRT()
 
     def verificarCientificoDeCIRT(self):
-        cientificos = self._ciDelRT.misCientificosActivos()
-        for cientifico in cientificos:
+        self._cientificosCIRT = self._ciDelRT.misCientificosActivos()
+        for cientifico in self._cientificosCIRT:
             if cientifico.compararUsuario(self._usuarioLogueado):
-                return True
-        return False
+                self._esUsuarioDelCIRT = True
+            else:
+                self._esUsuarioDelCIRT = False
+
+        self.obtenerTurnosParaRT()
 
     def getDateTimeActual():
         return datetime.now()
 
     def obtenerTurnosParaRT(self):
-        fechaHoraActual = self.getDateTimeActual()
+        self.fechaHoraActual = self.getDateTimeActual()
         self._turnosRT = self._RTSeleccionado.buscarTurnosDelRT()
     
     def ordenarTurnos(self):
