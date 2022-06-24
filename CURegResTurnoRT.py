@@ -6,7 +6,6 @@ import datetime
 from datetime import date
 from functools import partial
 
-from hiFellowProgrammer import pedirSeleccionEnvioNotificacion
 
 
 '''INTERFAZ DE CU'''
