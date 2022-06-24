@@ -8,6 +8,7 @@ from Marca import Marca
 from TipoRecursoTecnologico import TipoRecursoTecnologico
 from CentroDeInvestigacion import CentroDeInvestigacion
 from PersonalCientifico import PersonalCientifico
+from AsignacionCientificoDelCI import AsignacionCientificoDelCI
 from Usuario import Usuario
 from Sesion import Sesion
 from datetime import datetime
@@ -69,9 +70,14 @@ user2=Usuario("Mica32","pass2",True)
 cient1=PersonalCientifico(7001,"Eduardo","Apellido1",22778484,"mail1","mail2",318245685,user1)
 cient2=PersonalCientifico(7032,"Micaela","Apellido2",24778484,"mail3","mail4",318245685,user2)
 
+
+# >>> Asignaciones Cientificos
+asigCient1 = AsignacionCientificoDelCI(datetime.now().date(), None, cient1)
+asigCient2 = AsignacionCientificoDelCI(datetime.now().date(), None, cient2)
+
 # >>> Centros Investigacion
-ci1= CentroDeInvestigacion("Mecanica","MEC","Av. avenida 500","Edificio1",1,"22.55.60","ej@gm.com",50058,datetime(2020, 4, 10, 17, 00, 0),"reglamento","cracteristicas generales",22,None,None,[cient1],[rt1,rt3])
-ci2= CentroDeInvestigacion("Sonido","SON","Av. avenida 500","Edificio2",1,"22.55.60","ej@gm.com",50058,datetime(2020, 4, 10, 17, 00, 0),"reglamento","cracteristicas generales",22,None,None,[cient2],[rt2,rt4])
+ci1= CentroDeInvestigacion("Mecanica","MEC","Av. avenida 500","Edificio1",1,"22.55.60","ej@gm.com",50058,datetime(2020, 4, 10, 17, 00, 0),"reglamento","cracteristicas generales",22,None,None,[asigCient1],[rt1,rt3])
+ci2= CentroDeInvestigacion("Sonido","SON","Av. avenida 500","Edificio2",1,"22.55.60","ej@gm.com",50058,datetime(2020, 4, 10, 17, 00, 0),"reglamento","cracteristicas generales",22,None,None,[asigCient2],[rt2,rt4])
 centrosRepo = [ci1,ci2]
 
 
