@@ -47,7 +47,7 @@ class InterfazDeReservaTurno():
         #Empieza funcionalidad
 
         self.ventana = ventana
-        self.ventana.geometry("900x900")
+        self.ventana.geometry("500x500")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
         self.frame = tk.Frame(self.ventana)
         self.frame.pack()
@@ -296,26 +296,26 @@ class InterfazDeReservaTurno():
 
 class GestorDeCURegReservaDeTurno:
     def __init__(self,RTs,tiposRT,CIs,sesion,estados, marcas) -> None:
-        self._recursosTecnologicos = RTs
-        self._tiposRT = tiposRT
-        self._centrosInvestigacion = CIs
-        self._sesion = sesion 
-        self._estados = estados
-        self._marcas = marcas
-        self._datosRts = []
-        self._tipoRTSeleccionado = None
-        self._RtXCI = {}
-        self._cientificosCIRT = None
-        self._RTSeleccionado = None
-        self._usuarioLogueado = None
-        self._ciDelRT = None
-        self._turnosRT = None
-        self.turnosAgrupados = {}
-        self._turnoSeleccionado = None
-        self._envioNotifSeleccionado = None
-        self._confirmacion = ''
-        self.fechaHoraActual = None
-        self._turnosPorColor = None
+            self._recursosTecnologicos = RTs
+            self._tiposRT = tiposRT
+            self._centrosInvestigacion = CIs
+            self._sesion = sesion 
+            self._estados = estados
+            self._marcas = marcas
+            self._datosRts = []
+            self._tipoRTSeleccionado = None
+            self._RtXCI = {}
+            self._cientificosCIRT = None
+            self._RTSeleccionado = None
+            self._usuarioLogueado = None
+            self._ciDelRT = None
+            self._turnosRT = None
+            self.turnosAgrupados = {}
+            self._turnoSeleccionado = None
+            self._envioNotifSeleccionado = None
+            self._confirmacion = ''
+            self.fechaHoraActual = None
+            self._turnosPorColor = None
 
     def registrarReservaTurno(self):
         print('***GESTOR INICIO CU ***')
