@@ -136,7 +136,7 @@ class InterfazDeReservaTurno():
         self.pedirSeleccionDeRT()
 
     def pedirSeleccionDeRT(self):
-        self.button_seleccionarRT = tk.Button(self.frame,text='Seleccionar Recurso',background='light grey',command=self.tomarSeleccionTipoRT)
+        self.button_seleccionarRT = tk.Button(self.frame,text='Seleccionar Recurso',background='light grey',command=self.tomarSeleccionRT)
         self.button_seleccionarRT.pack(side='bottom',pady=20) 
 
     def tomarSeleccionRT(self):
