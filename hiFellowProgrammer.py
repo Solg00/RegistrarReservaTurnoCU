@@ -1,32 +1,30 @@
 """HELLO BUDDY! You might use this module to run some tests or leave comments for your fellow Programmers to see"""
+from struct import pack
+from textwrap import fill
 from tkinter import *
 from tkinter import ttk
 
-ws = Tk()
-ws.title("PythonGuides")
+root = Tk()
 
-tv = ttk.Treeview(ws, columns=(1, 2, 3), show='headings', height=8)
-tv.pack()
+def clear_window():
+    '''Destroy elements of a frame'''
+    for widget in ws.winfo_children():
+        widget.destroy()
+def openwin():
+    clear_window()
+    L = Label(ws,text='Hey world')
+    L2 = Label(ws,text='BYE BYE')
+    L.grid(row=0,column=0)
+    L2.grid(row=0,column=1)
 
-tv.heading(1, text="name")
-tv.heading(2, text="eid")
-tv.heading(3, text="Salary")
+ws = Frame(root)
+ws.pack()
+L = Label(ws,text='1')
+L2 = Label(ws,text='2')
+sp = ttk.Separator(ws, orient=HORIZONTAL)
+sp.grid(row=1,columnspan=2,sticky='ew') #Stick from east to west
+L.grid(row=0,column=0)
+L2.grid(row=0,column=1)
 
-def update_item():
-    selected = tv.focus()
-    temp = tv.item(selected, 'values')
-    sal_up = float(temp[2]) + float(temp[2]) * 0.05
-    tv.item(selected, values=(temp[0], temp[1], sal_up))
 
-tv.insert(parent='', index=0, iid=0, values=("vineet", "e11", 1000000.00))
-tv.insert(parent='', index=1, iid=1, values=("anil", "e12", 120000.00))
-tv.insert(parent='', index=2, iid=2, values=("ankit", "e13", 41000.00))
-tv.insert(parent='', index=3, iid=3, values=("Shanti", "e14", 22000.00))
-
-Button(ws, text='Increment Salary', command=update_item).pack()
-
-style = ttk.Style()
-style.theme_use("default")
-style.map("Treeview")
-
-ws.mainloop()
+root.mainloop()

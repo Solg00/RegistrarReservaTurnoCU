@@ -2,9 +2,9 @@ from datetime import datetime
 
 
 class RecursoTecnologico:
-    def __init__(self,nroRT,fechaAlta,img,perMP,durMP,frHorTur,modelo,tipoRT,cambioEstado,turnos=[]) -> None:
+    def __init__(self,nroRT,img,perMP,durMP,frHorTur,modelo,tipoRT,cambioEstado,turnos=[]) -> None:
         self._nroRT = nroRT
-        self._fechaAlta = datetime.strptime(fechaAlta,"%d/%m/%Y").strftime('%d/%m/%Y %H:%M')
+        self._fechaAlta = datetime.now().strftime('%d/%m/%Y %H:%M')
         self._imagenes = img
         self._periodicidaMP = perMP
         self._duracionMP = durMP
