@@ -7,7 +7,7 @@ class InterfazDeEmail():
     def __init__(self) -> None:
         pass
     def enviarnotificacion(self,email, mensaje):
-        messagebox.showinfo(title="Notificacion Enviada a " + email, message=mensaje)
+        messagebox.showinfo(title="Notificacion Enviada a " + email, message= 'Email: '+email + '\n' + mensaje)
 
 
 if __name__ == '__main__':

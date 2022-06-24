@@ -487,7 +487,7 @@ class GestorDeCURegReservaDeTurno:
  
 
     def generarNotificacionConDatosTurno(self):
-        mensaje = "Notificacion enviada a:" + \
+        mensaje = "Notificacion enviada:" + \
                   "\nDatos del turno: " + \
                   "\nFecha: " + self._turnoSeleccionado.fechaHoraInicio.date().strftime("%d/%m/%y") + \
                   "\nHora de Inicio: " + self._turnoSeleccionado.fechaHoraInicio.time().strftime("%H:%M") + \
@@ -499,6 +499,8 @@ class GestorDeCURegReservaDeTurno:
             self.nro_tel = self._usuarioLogueado.getNroCientifico(self._ciDelRT.cientificos)
             InterfazDeWhatsApp.enviarnotificacion(intWP,self.nro_tel, mensaje)
         self.FinCU()
+
+        
     def FinCU(self):
         print('****Fin CU*****')
         InterfazDeReservaTurno.close_window(interfaz)
