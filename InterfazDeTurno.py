@@ -1,4 +1,5 @@
-from tkinter import StringVar, ttk
+from select import select
+from tkinter import Label, StringVar, ttk,messagebox
 import tkinter as tk
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
 
@@ -16,24 +17,33 @@ class InterfazDeReservaTurno():
         self.cell_ModMarcaRTSeleccionado = None
         self.cell_CIRTSeleccionado = None
         self.cell_EstadoRTSeleccionado = None
+        self.combo_envioNotif = None
 
-
-
+        self.tiposRT = None
+        self.tipoRTSeleccionado = None
         self.rTSeleccionado = None
         self.cIDelRT = None
+        self.tiposEnvioNotif = None
+        self.envioNotifSeleccionado = None
         #Empieza funcionalidad
         self.opcionReservarTurnoRT()
 
-    ventana = tk.Tk()
-    ventana.geometry("900x900")
-    ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
-    frame = tk.Frame(ventana)
-    frame.pack()
+        self.ventana = tk.Tk()
+        self.ventana.geometry("900x900")
+        self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
+        self.ventana.mainloop()
+
+        self.frame = tk.Frame(ventana)
+        self.frame.pack()
+
     #Utils
     def clear_window(self):
         '''Destroy elements of a frame'''
         for widget in self.frame.winfo_children():
             widget.destroy()
+
+    def close_window(self):
+        self.ventana.destroy()
 
     #Métodos de clase
     def opcionReservarTurnoRT(self):
@@ -43,21 +53,26 @@ class InterfazDeReservaTurno():
 
 
     
-    def habilitarInterfaz():
+    def habilitarInterfaz(self):
         gestor.registrarReservaTurno()
     
     def mostrarTiposRT(self,tiposRT:list):
+        self.clear_window()
+
+        self.tiposRT = tiposRT
         tittle = tk.Label(self.frame,text="Seleccione el tipo de Recurso Tecnológico que desee:")
         tittle.pack(side='top')
-        self.combo_tiposRT = ttk.Combobox(self.frame,state='readonly',values=tiposRT)
-        self.combo_tiposRT.place(x=50, y=50)
+        self.combo_tiposRT = ttk.Combobox(self.frame,state='readonly',values=self.tiposRT)
+        self.combo_tiposRT.pack()
         self.combo_tiposRT.bind("<<ComboboxSelected>>", self.tomarSeleccionTipoRT)
         
     def tomarSeleccionTipoRT(self):
-        tipoRTSeleccionado= self.combo_tiposRT.get()
-        gestor.tomarSeleccionTipoRT(tipoRTSeleccionado)
+        self.tipoRTSeleccionado= self.combo_tiposRT.get()
+        gestor.tomarSeleccionTipoRT(self.tipoRTSeleccionado)
 
     def mostrarRTs(self, cisRT:dict):
+        self.clear_window()
+
         def fixed_map(option): #Función necesaria para tkinter 8.6>>> y python 3.8
             # Returns the style map for 'option' with any styles starting with
             # ("!disabled", "!selected", ...) filtered out
@@ -117,6 +132,8 @@ class InterfazDeReservaTurno():
 
     def mostrarDatosRTSeleccionado(self):
         self.labelframe_rtselec= tk.LabelFrame(self.frame,text='Recurso Tecnológico Seleccionado')
+        self.labelframe_rtselec.grid(column=0,row=0)
+
         #Headers
         self.labelframe_rtselec.pack()
         self.label_rtseleccionadoNroInv = tk.Label(self.labelframe_rtselec, text='Nro Inventario')
@@ -146,7 +163,7 @@ class InterfazDeReservaTurno():
 
     def mostrarDatosTurnoSeleccionado(self):
         self.labelframe_turno= tk.LabelFrame(self.frame,text='Turno Seleccionado')
-        self.labelframe_turno.pack()
+        self.labelframe_turno.grid(column=0,row=1)
         #Headers
         self.label_fechaInicioTurnoSelec = tk.Label(self.labelframe_turno, text='Fecha Inicio')
         self.label_fechaInicioTurnoSelec.grid(row=0,column=0)
@@ -162,6 +179,38 @@ class InterfazDeReservaTurno():
         self.cell_fechaInicioTurnoSelec.grid(row=2,column=1)
 
 
+    def pedirSeleccionEnvioNotificacion(self,tipoEnvio):
+        self.tiposEnvioNotif = tipoEnvio
+        self.label_seleccionEnvioNotif = tk.Label(self.frame,text="Seleccione cómo desea que se le envíe la notificación:")
+        self.label_seleccionEnvioNotif.grid(row=5,column=0)
+        self.combo_envioNotif = ttk.Combobox(self.frame,state='readonly',values=self.tipoEnvioNotif)
+        self.combo_envioNotif.grid(row=5,column=1)
+        self.combo_envioNotif.bind("<<ComboboxSelected>>", self.tomarSeleccionEnvioNotificacion)
 
-    ventana.mainloop()
+
+    def tomarSeleccionEnvioNotificacion(self):
+        self.envioNotifSeleccionado = self.combo_envioNotif.get()
+        gestor.tomarSeleccionEnvioNotificacion(self.envioNotifSeleccionado)
+
+    def pedirConfirmacion(self):
+        skip = Label(self.frame,text=' ')
+        skip.grid(row=6,column=1)
+
+        self.btn_confirmacion = tk.Button(self.frame,text='Confirmar',background='green',command=self.tomarSeleccionTipoRT)
+        self.btn_confirmacion.grid(row=7,column=3)
+        self.btn_cancelar = tk.Button(self.frame,text='Cancelar',background='red',command=self.cancelar)
+        self.btn_confirmacion.grid(row=7,column=4)
+
+    def tomarConfirmacion(self):
+        self.confirmacion = True
+        gestor.tomarConfirmacion(self.confirmacion)
+
+    def cancelar(self):
+        cancelar = messagebox.askyesno(title='Cancelación de Reserva', message='Desea cancelar su reserva?')
+        if cancelar:
+            self.confirmacion = False
+            gestor.tomarConfirmacion(self.confirmacion)
+            print('****CANCELAR****')
+            gestor.finCU()
+            self.close_window()
  

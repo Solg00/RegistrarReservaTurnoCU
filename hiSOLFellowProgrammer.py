@@ -10,14 +10,44 @@ cisRT = {'UTN FRC': [{'nroInv': 12123, 'modMarca': '1-Philco', 'estadoActual':{'
 {'nroInv': 21312, 'modMarca': '1-Philco', 'estadoActual':{'nombre':'otro','color':'Gris'}}]}
 
 
+tiposrt = ['micro','macro']
 
-def mostrar(cisRT):
-   pass
+def clear_window():
+    '''Destroy elements of a frame'''
+    for widget in frame.winfo_children():
+            widget.destroy()
+            
+def opcionReservarTurnoRT():
+    print("*****Interfaz: opción opcionReservarTurnoRT seleccionada  ******")
+    btn_opcionReservarTurnoRT = tk.Button(frame,text="Reservar Turno de RT", padx=50, pady= 40, command=habilitarInterfaz)
+    btn_opcionReservarTurnoRT.pack()
 
-ws = tk.Tk()
-cal = Calendar(ws)
-cal.pack()
-day = datetime.date(2022, 6, 30)
-cal.calevent_create(day, "", tags="hi")
-cal.tag_config("hi", background="red")
-ws.mainloop()
+
+
+def habilitarInterfaz():
+    mostrarTiposRT(tiposrt)
+
+def mostrarTiposRT(tiposRT:list):
+        clear_window()
+        tiposRT = tiposRT
+        tittle = tk.Label(frame,text="Seleccione el tipo de Recurso Tecnológico que desee:")
+        tittle.pack(side='top')
+        combo_tiposRT = ttk.Combobox(frame,state='readonly',values=tiposRT)
+        combo_tiposRT.pack()
+        combo_tiposRT.bind("<<ComboboxSelected>>", tomarSeleccionTipoRT)
+
+        def tomarSeleccionTipoRT():
+            tipoRTSeleccionado= combo_tiposRT.get()
+            print(tipoRTSeleccionado)
+
+
+ventana = tk.Tk()
+ventana.geometry("900x900")
+ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
+
+
+frame = tk.Frame(ventana)
+frame.pack()
+opcionReservarTurnoRT()
+
+ventana.mainloop()

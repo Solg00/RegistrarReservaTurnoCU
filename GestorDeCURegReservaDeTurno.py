@@ -174,3 +174,5 @@ class GestorDeCURegReservaDeTurno:
 
     def generarNotificacionConDatosTurno(self):
         pass
+    def FinCU(self):
+        pass
