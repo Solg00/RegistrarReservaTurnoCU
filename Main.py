@@ -9,8 +9,6 @@ interfaz = interfaz()
 
 def main():
     # interfaz.opcionReservarTurnoRT()
-    turnosAgrupadosDelRt = gestor.obtenerTurnosParaRT()
-    turnosAgrupadosPorColorDelRt = gestor.agruparPorColor()
     interfaz.mostrarTurnos(turnosAgrupadosDelRt, turnosAgrupadosPorColorDelRt)
     # gestor.registrarTurno()
     # gestor.buscarTiposRT()

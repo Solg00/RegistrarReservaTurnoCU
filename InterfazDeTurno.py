@@ -2,10 +2,11 @@ from tkinter import Label, StringVar, ttk,messagebox
 import tkinter as tk
 from tkcalendar import Calendar
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
-import datosEjemplo
+import datosEjemplo as dt
+
 
 class InterfazDeReservaTurno():
-    def __init__(self,root) -> None:
+    def __init__(self,ventana) -> None:
         self.combo_tiposRT = None
         self.grillaRTs = None
         self.button_seleccionarRT = None
@@ -31,13 +32,12 @@ class InterfazDeReservaTurno():
         self.envioNotifSeleccionado = None
         #Empieza funcionalidad
 
-        self.ventana = tk.Tk()
+        self.ventana = ventana
         self.ventana.geometry("900x900")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
         self.frame = tk.Frame(self.ventana)
         self.frame.pack()
         self.opcionReservarTurnoRT()
-        self.ventana.mainloop()
 
     #Utils
     def clear_window(self):
@@ -270,4 +270,7 @@ class InterfazDeReservaTurno():
 
 
 if __name__ == '__main__':
-    InterfazDeReservaTurno()
+    ventana = tk.Tk()
+    interfaz = InterfazDeReservaTurno(ventana)
+    gestor = gestor(dt.rTRepo, dt.rtTipoRepo, dt.centrosRepo, dt.sesion, dt.estadosRepo, interfaz)
+    ventana.mainloop()
