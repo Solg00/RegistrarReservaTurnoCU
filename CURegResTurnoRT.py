@@ -3,6 +3,8 @@ import tkinter as tk
 from tkcalendar import Calendar
 import datosEjemplo as dt
 import datetime
+from datetime import date
+from functools import partial
 
 '''INTERFAZ DE CU'''
 class InterfazDeReservaTurno():
@@ -232,6 +234,7 @@ class InterfazDeReservaTurno():
 
     def tomarSeleccionTurno(self, turnoSelect):
         self.turnoSeleccionado = turnoSelect
+        GestorDeCURegReservaDeTurno.tomarSeleccionDeTurno(gestor,self.turnoSeleccionado)
 
     def pedirSeleccionDeTurno(self, turnos, turnosColor):
         for widget in self.ventana.winfo_children():
