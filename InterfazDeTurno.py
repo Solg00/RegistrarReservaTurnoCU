@@ -20,6 +20,18 @@ class InterfazDeReservaTurno():
         self.cell_CIRTSeleccionado = None
         self.cell_EstadoRTSeleccionado = None
         self.combo_envioNotif = None
+        self.labelframe_turno = None
+        self.label_fechaInicioTurnoSelec = None
+        self.label_fechaFinTurnoSelec = None
+        self.cell_fechaInicioTurnoSelec = None
+        self.label_seleccionEnvioNotif = None
+        self.combo_envioNotif = None
+        self.btn_confirmacion = None
+        self.btn_cancelar = None
+
+
+        
+
 
         self.cal = None
         self.btnPedirSeleccionTurno = None
@@ -30,8 +42,11 @@ class InterfazDeReservaTurno():
         self.cIDelRT = None
         self.tiposEnvioNotif = None
         self.envioNotifSeleccionado = None
-        #Empieza funcionalidad
+        self.confirmacion = None
+        self.turnoSeleccionado = None
+        
 
+        #Empieza funcionalidad
         self.ventana = ventana
         self.ventana.geometry("900x900")
         self.ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
