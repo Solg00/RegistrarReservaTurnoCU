@@ -304,11 +304,13 @@ class GestorDeCURegReservaDeTurno:
         self._usuarioLogueado = None
         self._ciDelRT = None
         self._turnosRT = None
+        self.turnosAgrupados = {}
         self._turnoSeleccionado = None
         self._envioNotifSeleccionado = None
         self._confirmacion = ''
         self.fechaHoraActual = None
-        
+        self._turnosPorColor = None
+
     def registrarReservaTurno(self):
         print('***GESTOR INICIO CU ***')
         self.buscarTiposRT()
@@ -419,39 +421,41 @@ class GestorDeCURegReservaDeTurno:
     def obtenerTurnosParaRT(self):
         self.fechaHoraActual = self.getDateTimeActual()
         self._turnosRT = self._RTSeleccionado.buscarTurnosDelRT()
-    
+        self.ordenarTurnos()
+        self.agruparTurnos()
+        self.asignarColorPorEstado()
+        InterfazDeReservaTurno.mostrarTurnos(interfaz,self.turnosAgrupados,self._turnosPorColor)
+
     def ordenarTurnos(self):
         self._turnosRT = sorted(self._turnosRT, key=lambda x: x.fechaHoraInicio)
     
     def agruparTurnos(self):
-        turnosAgrupados = {}
         for turno in self._turnosRT:
             turnosDia = []
             fechaTurno = turno.fechaHoraInicio.date()
-            fechas = turnosAgrupados.keys()
+            fechas = self.turnosAgrupados.keys()
             if fechaTurno not in fechas:
-                turnosAgrupados[fechaTurno] = turnosDia
-                turnosAgrupados[fechaTurno].append(turno)
+                self.turnosAgrupados[fechaTurno] = turnosDia
+                self.turnosAgrupados[fechaTurno].append(turno)
             else:
-                turnosAgrupados[fechaTurno].append(turno)
-        return turnosAgrupados
+                self.turnosAgrupados[fechaTurno].append(turno)
+
 
     
     def asignarColorTurnoXDisp(self):
-        turnosPorColor = {"Azul": [],
+        self._turnosPorColor = {"Azul": [],
                           "Gris": [],
                           "Rojo": []}
 
         for turno in self._turnosRT:
             estadoTurno = turno.cambiosDeEstadoTurno[-1].estado.getNombre()
             if estadoTurno == "Disponible":
-                turnosPorColor["Azul"].append(turno)
+                self._turnosPorColor["Azul"].append(turno)
             if estadoTurno == "Con reserva pendiente de confirmacion":
-                turnosPorColor["Gris"].append(turno)
+                self._turnosPorColor["Gris"].append(turno)
             if estadoTurno.esReservado():
-                turnosPorColor["Rojo"].append(turno)
+                self._turnosPorColor["Rojo"].append(turno)
 
-        return turnosPorColor
 
     def confirmarTurno(self):
         estadoAsignar = None
