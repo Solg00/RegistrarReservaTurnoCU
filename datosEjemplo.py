@@ -11,6 +11,7 @@ from PersonalCientifico import PersonalCientifico
 from Usuario import Usuario
 from Sesion import Sesion
 
+import datetime
 # >>> Modelos
 mod1 = Modelo("RX3021C")
 mod2 = Modelo("LG1121D")
@@ -59,13 +60,15 @@ estadoPendienteTu = Estado("Con reserva pendiente de confirmacion", "Pendiente",
 ci1= CentroDeInvestigacion("Mecanica","MEC","Av. avenida 500","Edificio1",1,"22.55.60","ej@gm.com",50058,datetime(2020, 4, 10, 17, 00, 0),"reglamento","cracteristicas generales",22,None,None,[cient1],[rt1,rt3])
 ci1= CentroDeInvestigacion("Sonido","SON","Av. avenida 500","Edificio2",1,"22.55.60","ej@gm.com",50058,datetime(2020, 4, 10, 17, 00, 0),"reglamento","cracteristicas generales",22,None,None,[cient2],[rt2,rt4])
 
+# >>> Usuarios
+user1=Usuario("Edu12","pass1",True)
+user2=Usuario("Mica32","pass2",True)
+
 # >>> Cientificos
 cient1=PersonalCientifico(7001,"Eduardo","Apellido1",22778484,"mail1","mail2",318245685,user1)
 cient2=PersonalCientifico(7032,"Micaela","Apellido2",24778484,"mail3","mail4",318245685,user2)
 
-# >>> Usuarios
-user1=Usuario("Edu12","pass1",True)
-user2=Usuario("Mica32","pass2",True)
+
 
 # >>> Sesion
 sesion=Sesion(user1)

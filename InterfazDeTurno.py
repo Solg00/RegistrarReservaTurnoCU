@@ -1,5 +1,6 @@
-from tkinter import ttk
+from tkinter import StringVar, ttk
 import tkinter as tk
+from tokenize import String
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
 
 class InterfazDeReservaTurno():
@@ -57,7 +58,7 @@ class InterfazDeReservaTurno():
                 return [elm for elm in style.map("Treeview", query_opt=option)
                         if elm[:2] != ("!disabled", "!selected")]
 
-        self.self.grillaRTs = ttk.Treeview(self.frame,columns=(1,2,3,4),show='headings')
+        self.grillaRTs = ttk.Treeview(self.frame,columns=(1,2,3,4),show='headings')
         self.self.grillaRTs.pack()
         style = ttk.Style()
         style.map("Treeview", 
@@ -108,33 +109,50 @@ class InterfazDeReservaTurno():
     def mostrarDatosRTSeleccionado(self):
         self.labelframe_rtselec= tk.LabelFrame(self.frame,text='Recurso Tecnológico Seleccionado')
         #Headers
-        self.labelframe_rtselec.grid(row=0,column=0)
+        self.labelframe_rtselec.pack()
         self.label_rtseleccionadoNroInv = tk.Label(self.labelframe_rtselec, text='Nro Inventario')
-        self.label_rtseleccionadoNroInv.grid(row=1,column=0)
+        self.label_rtseleccionadoNroInv.grid(row=0,column=0)
         self.label_rtseleccionadoModMarca = tk.Label(self.labelframe_rtselec, text='Modelo y Marca')
-        self.label_rtseleccionadoModMarca.grid(row=1,column=1)
+        self.label_rtseleccionadoModMarca.grid(row=0,column=1)
         self.label_rtseleccionadoCI = tk.Label(self.labelframe_rtselec, text='Centro De Investigación')
-        self.label_rtseleccionadoCI.grid(row=1,column=2)
+        self.label_rtseleccionadoCI.grid(row=0,column=2)    
         self.label_rtseleccionadoEstado = tk.Label(self.labelframe_rtselec, text='Estado')
-        self.label_rtseleccionadoEstado.grid(row=1,column=3)
+        self.label_rtseleccionadoEstado.grid(row=0,column=3)
 
         sp = ttk.Separator(self.labelframe_rtselec, orient='horizontal')
         sp.grid(row=1,columnspan=4,sticky='ew')
         
-        self.cell_nroInvRTSeleccionado = self.rTSeleccionado['nroInv']
+        #RT
+        self.cell_nroInvRTSeleccionado = tk.Label(self.labelframe_rtselec, textvariable= StringVar(value=self.rTSeleccionado['nroInv']))
         self.cell_nroInvRTSeleccionado.grid(row=2,column=0)
-        self.cell_ModMarcaRTSeleccionado = self.rTSeleccionado['modMarca']
+        self.cell_ModMarcaRTSeleccionado = tk.Label(self.labelframe_rtselec, textvariable= StringVar(value=self.rTSeleccionado['modMarca']))
         self.cell_ModMarcaRTSeleccionado.grid(row=2,column=1)
-        self.cell_CIRTSeleccionado = self.cIDelRT.nombre
+        self.cell_CIRTSeleccionado = tk.Label(self.labelframe_rtselec, textvariable= StringVar(value=self.cIDelRT.nombre))
         self.cell_CIRTSeleccionado.grid(row=2,column=2)
-        self.cell_EstadoRTSeleccionado = self.rTSeleccionado['estadoActual']
+        self.cell_EstadoRTSeleccionado = tk.Label(self.labelframe_rtselec, textvariable= StringVar(value=self.rTSeleccionado['estadoActual']))
         self.cell_EstadoRTSeleccionado.grid(row=2,column=3)
+    
+        self.mostrarDatosTurnoSeleccionado()
 
+
+    def mostrarDatosTurnoSeleccionado(self):
+        self.labelframe_turno= tk.LabelFrame(self.frame,text='Turno Seleccionado')
+        self.labelframe_turno.pack()
+        #Headers
+        self.label_fechaInicioTurnoSelec = tk.Label(self.labelframe_turno, text='Fecha Inicio')
+        self.label_fechaInicioTurnoSelec.grid(row=0,column=0)
+        self.label_fechaFinTurnoSelec = tk.Label(self.labelframe_turno, text='Fecha Fin')
+        self.label_fechaFinTurnoSelec.grid(row=0,column=1)
+        
+        sp = ttk.Separator(self.labelframe_turno, orient='horizontal')
+        sp.grid(row=1,columnspan=2,sticky='ew')
+
+        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado['fechaInicio']))
+        self.cell_fechaInicioTurnoSelec.grid(row=2,column=0)
+        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado['fechaFin']))
+        self.cell_fechaInicioTurnoSelec.grid(row=2,column=1)
         
 
 
-    def mostrarDatosTurnoSeleccionado():
-        pass
-    
     ventana.mainloop()
  
