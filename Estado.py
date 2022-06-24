@@ -1,3 +1,6 @@
+import re
+
+
 class Estado:
 
     #Constructores
@@ -44,5 +47,10 @@ class Estado:
         else:
             return False
 
+    def esReservable(self):
+        if self.esReservable:
+            return True
+        return False
+        
     def getNombre(self):
         return self.nombre

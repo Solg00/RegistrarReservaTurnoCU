@@ -27,5 +27,8 @@ class CambioEstadoRT:
     def getNombreEstado(self):
         return self.estado.getNombre()
     
-    def __str__(self) -> str:
-        return f'CAMBIO: {self.fechaHoraDesde} - {self.fechaHoraHasta}'
+    def esReservable(self):
+        if self.estado.esReservable():
+            return True
+        return False
+
