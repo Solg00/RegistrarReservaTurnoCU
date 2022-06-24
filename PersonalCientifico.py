@@ -53,6 +53,7 @@ class PersonalCientifico():
         else:
             return False
 
+        
     def getEmail(self) -> str:
         return self.correo
 

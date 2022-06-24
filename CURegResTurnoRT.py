@@ -1,6 +1,7 @@
 from tkinter import Label, StringVar, ttk,messagebox
 import tkinter as tk
 from tkcalendar import Calendar
+from RecursoTecnologico import RecursoTecnologico
 import datosEjemplo as dt
 import datetime
 from datetime import date
@@ -144,9 +145,10 @@ class InterfazDeReservaTurno():
         item_selected = self.grillaRTs.item(item_selected,'values') 
         self.rTSeleccionado = {
             'nroInv': item_selected[1],
-            'modMarca' : item_selected[2],
+            'modMarca' : item_selected[2].split('-'),
             'estadoActual' : item_selected[3],
         }
+
         GestorDeCURegReservaDeTurno.tomarSeleccionRT(gestor,self.rTSeleccionado)
 
 
@@ -335,7 +337,10 @@ class GestorDeCURegReservaDeTurno:
         self.buscarRT()
 
     def tomarSeleccionRT(self, selected):
-        self._RTSeleccionado = selected
+        for rt in self._recursosTecnologicos:
+            if int(selected['nroInv']) == rt.nroRT:
+                self._RTSeleccionado = rt
+
         self.obtenerUsuarioLogueado()
 
     def tomarSeleccionDeTurno(self, selected):
