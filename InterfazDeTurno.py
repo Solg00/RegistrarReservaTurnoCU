@@ -8,6 +8,16 @@ class InterfazDeReservaTurno():
         self.grillaRTs = None
         self.button_seleccionarRT = None
         self.labelframe_rtselec = None
+        self.label_rtseleccionadoNroInv = None
+        self.label_rtseleccionadoModMarca = None
+        self.label_rtseleccionadoCI = None
+        self.label_rtseleccionadoEstado = None
+        self.cell_nroInvRTSeleccionado = None
+        self.cell_ModMarcaRTSeleccionado = None
+        self.cell_CIRTSeleccionado = None
+        self.cell_EstadoRTSeleccionado = None
+
+
 
         self.rTSeleccionado = None
         self.cIDelRT = None
@@ -57,8 +67,8 @@ class InterfazDeReservaTurno():
                 return [elm for elm in style.map("Treeview", query_opt=option)
                         if elm[:2] != ("!disabled", "!selected")]
 
-        self.self.grillaRTs = ttk.Treeview(self.frame,columns=(1,2,3,4),show='headings')
-        self.self.grillaRTs.pack()
+        self.grillaRTs = ttk.Treeview(self.frame,columns=(1,2,3,4),show='headings')
+        self.grillaRTs.pack()
         style = ttk.Style()
         style.map("Treeview", 
           foreground=fixed_map("foreground"),
