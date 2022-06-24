@@ -6,6 +6,9 @@ import datetime
 from datetime import date
 from functools import partial
 
+from hiFellowProgrammer import pedirSeleccionEnvioNotificacion
+
+
 '''INTERFAZ DE CU'''
 class InterfazDeReservaTurno():
     def __init__(self,ventana) -> None:
@@ -148,7 +151,8 @@ class InterfazDeReservaTurno():
         GestorDeCURegReservaDeTurno.tomarSeleccionRT(gestor,self.rTSeleccionado)
 
 
-    def mostrarDatosRTSeleccionado(self):
+    def mostrarDatosRTSeleccionado(self,ci):
+        self.cIDelRT = ci
         self.labelframe_rtselec= tk.LabelFrame(self.frame,text='Recurso Tecnológico Seleccionado')
         self.labelframe_rtselec.grid(column=0,row=0)
 
@@ -191,14 +195,15 @@ class InterfazDeReservaTurno():
         sp = ttk.Separator(self.labelframe_turno, orient='horizontal')
         sp.grid(row=1,columnspan=2,sticky='ew')
 
-        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado['fechaInicio']))
+        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado.fechaHoraInicio))
         self.cell_fechaInicioTurnoSelec.grid(row=2,column=0)
-        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado['fechaFin']))
+        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado.fechaHoraFin))
         self.cell_fechaInicioTurnoSelec.grid(row=2,column=1)
 
+        self.pedirSeleccionEnvioNotificacion()
 
-    def pedirSeleccionEnvioNotificacion(self,tipoEnvio):
-        self.tiposEnvioNotif = tipoEnvio
+    def pedirSeleccionEnvioNotificacion(self):
+        self.tiposEnvioNotif = {'Whatsapp','Email'}
         self.label_seleccionEnvioNotif = tk.Label(self.frame,text="Seleccione cómo desea que se le envíe la notificación:")
         self.label_seleccionEnvioNotif.grid(row=5,column=0)
         self.combo_envioNotif = ttk.Combobox(self.frame,state='readonly',values=self.tipoEnvioNotif)
@@ -208,20 +213,20 @@ class InterfazDeReservaTurno():
 
     def tomarSeleccionEnvioNotificacion(self):
         self.envioNotifSeleccionado = self.combo_envioNotif.get()
-        gestor.tomarSeleccionEnvioNotificacion(self.envioNotifSeleccionado)
+        GestorDeCURegReservaDeTurno.tomarSeleccionEnvioNotificacion(gestor,self.envioNotifSeleccionado)
 
     def pedirConfirmacion(self):
         skip = Label(self.frame,text=' ')
         skip.grid(row=6,column=1)
 
-        self.btn_confirmacion = tk.Button(self.frame,text='Confirmar',background='green',command=self.tomarSeleccionTipoRT)
+        self.btn_confirmacion = tk.Button(self.frame,text='Confirmar',background='green',command=self.tomarConfirmacion)
         self.btn_confirmacion.grid(row=7,column=3)
         self.btn_cancelar = tk.Button(self.frame,text='Cancelar',background='red',command=self.cancelar)
         self.btn_confirmacion.grid(row=7,column=4)
 
     def tomarConfirmacion(self):
         self.confirmacion = True
-        gestor.tomarConfirmacion(self.confirmacion)
+        GestorDeCURegReservaDeTurno.tomarConfirmacion(gestor,self.confirmacion)
 
     def cancelar(self):
         cancelar = messagebox.askyesno(title='Cancelación de Reserva', message='Desea cancelar su reserva?')
@@ -335,12 +340,15 @@ class GestorDeCURegReservaDeTurno:
 
     def tomarSeleccionDeTurno(self, selected):
         self._turnoSeleccionado  = selected
-
+        InterfazDeReservaTurno.mostrarDatosRTSeleccionado(interfaz,self._ciDelRT)
+        
     def tomarSeleccionEnvioNotificacion(self, selected):
         self._envioNotifSeleccionado  = selected
+        InterfazDeReservaTurno.pedirConfirmacion(interfaz)
 
     def tomarConfirmacion(self,selected):
         self._confirmacion  = selected
+        self.confirmarTurno()
 
     def buscarRT(self):
         for rt in self._recursosTecnologicos:
@@ -467,7 +475,11 @@ class GestorDeCURegReservaDeTurno:
         
         self._turnoSeleccionado.reservar(estadoAsignar)
 
-        self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
+        if self._envioNotifSeleccionado == 'Email':
+            self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
+            self.generarNotificacionConDatosTurno()
+        else:
+            pass
 
     def generarNotificacionConDatosTurno(self):
         pass
