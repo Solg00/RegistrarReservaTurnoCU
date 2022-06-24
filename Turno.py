@@ -39,7 +39,7 @@ class Turno:
         # setea su fechaHoraHasta con la fecha y hora actual
         for cambioEstado in self.cambiosDeEstadoTurno:
             if cambioEstado.sosEstadoActual():
-                cambioEstado.fechaHoraHasta = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                cambioEstado.fechaHoraFin = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
         # Finalmentese agrega el nuevo cambio de estado, ya con la fechaHoraHasta del estado anterior actualizada
         self.cambiosDeEstadoTurno.append(cambioEstado)
