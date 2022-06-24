@@ -14,7 +14,7 @@ class CambioDeEstadoTurno():
     @property
     def fechaHoraHasta(self):
         return self._fechaHoraHasta
-
+        
     @property
     def estado(self):
         return self._estado

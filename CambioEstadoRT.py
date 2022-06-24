@@ -1,12 +1,9 @@
 from datetime import datetime
 
 class CambioEstadoRT:
-    def __init__(self,estado,fechaDesde,fechaHasta=None) -> None:
-        self._fechaHoraDesde = datetime.strptime(fechaDesde,"%d/%m/%Y %H:%M").strftime('%d/%m/%Y %H:%M')
-        if fechaHasta:
-            self._fechaHoraHasta = datetime.strptime(fechaHasta,"%d/%m/%Y %H:%M").strftime("%d/%m/%Y %H:%M")
-        else:
-            self._fechaHoraHasta = fechaHasta
+    def __init__(self,estado) -> None:
+        self._fechaHoraDesde = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self._fechaHoraHasta = None
         self._estado = estado
         
     @property

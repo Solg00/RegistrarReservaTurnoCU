@@ -1,4 +1,4 @@
-from tkinter import Label, ttk
+from tkinter import ttk
 import tkinter as tk
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
 
@@ -6,25 +6,40 @@ class InterfazDeReservaTurno():
     def __init__(self) -> None:
         self.combo_tiposRT = None
         self.grillaRTs = None
+        self.button_seleccionarRT = None
+        self.labelframe_rtselec = None
+
         self.rTSeleccionado = None
+        self.cIDelRT = None
+        #Empieza funcionalidad
+        self.opcionReservarTurnoRT()
+
     ventana = tk.Tk()
     ventana.geometry("900x900")
-    ventana.title('Caso de Uso 23: Registrar Reserva de Turno de Recurso Tecnológico')
-    btn_opcionReservarTurnoRT = tk.Button(ventana,text="Reservar Turno de RT", padx=50, pady= 40, command=self.opcionReservarTurnoRT)
-    btn_opcionReservarTurnoRT.pack()
+    ventana.title('Registrar Reserva de Turno de Recurso Tecnológico')
+    frame = tk.Frame(ventana)
+    frame.pack()
+    #Utils
+    def clear_window():
+        '''Destroy elements of a frame'''
+        for widget in frame.winfo_children():
+            widget.destroy()
 
+    #Métodos de clase
     def opcionReservarTurnoRT(self):
         print("*****Interfaz: opción opcionReservarTurnoRT seleccionada  ******")
-        self.habilitarInterfaz()
+        btn_opcionReservarTurnoRT = tk.Button(self.frame,text="Reservar Turno de RT", padx=50, pady= 40, command=self.habilitarInterfaz)
+        btn_opcionReservarTurnoRT.pack()
+
 
     
     def habilitarInterfaz():
         gestor.registrarReservaTurno()
     
     def mostrarTiposRT(self,tiposRT:list):
-        tittle = tk.Label(self.ventana,text="Seleccione el tipo de Recurso Tecnológico que desee:")
+        tittle = tk.Label(self.frame,text="Seleccione el tipo de Recurso Tecnológico que desee:")
         tittle.pack(side='top')
-        self.combo_tiposRT = ttk.Combobox(self.ventana,state='readonly',values=tiposRT)
+        self.combo_tiposRT = ttk.Combobox(self.frame,state='readonly',values=tiposRT)
         self.combo_tiposRT.place(x=50, y=50)
         self.combo_tiposRT.bind("<<ComboboxSelected>>", self.tomarSeleccionTipoRT)
         
@@ -42,7 +57,7 @@ class InterfazDeReservaTurno():
                 return [elm for elm in style.map("Treeview", query_opt=option)
                         if elm[:2] != ("!disabled", "!selected")]
 
-        self.self.grillaRTs = ttk.Treeview(self.ventana,columns=(1,2,3,4),show='headings')
+        self.self.grillaRTs = ttk.Treeview(self.frame,columns=(1,2,3,4),show='headings')
         self.self.grillaRTs.pack()
         style = ttk.Style()
         style.map("Treeview", 
@@ -76,8 +91,8 @@ class InterfazDeReservaTurno():
                     self.grillaRTs.insert('', tk.END, values=['',rt['nroInv'],rt['modMarca'],rt['estadoActual']['nombre']],tags=('Gris'))
         self.pedirSeleccionDeRT()
     def pedirSeleccionDeRT(self):
-        button_seleccionarRT = tk.Button(self.ventana,text='Seleccionar Recurso',background='light grey',command=self.tomarSeleccionTipoRT)
-        button_seleccionarRT.pack(side='bottom',pady=20) 
+        self.button_seleccionarRT = tk.Button(self.frame,text='Seleccionar Recurso',background='light grey',command=self.tomarSeleccionTipoRT)
+        self.button_seleccionarRT.pack(side='bottom',pady=20) 
 
     def tomarSeleccionRT(self):
         item_selected = self.grillaRTs.focus()
@@ -88,5 +103,35 @@ class InterfazDeReservaTurno():
             'estadoActual' : item_selected[3],
         }
         gestor.tomarSeleccionRT(self.rTSeleccionado)
+
+
+    def mostrarDatosRTSeleccionado(self):
+        self.labelframe_rtselec= tk.LabelFrame(self.frame,text='Recurso Tecnológico Seleccionado')
+        #Headers
+        self.label_rtseleccionado.grid(row=0,column=0)
+        self.label_rtseleccionadoNroInv = tk.Label(self.labelframe_rtselec, text='Nro Inventario')
+        self.label_rtseleccionadoNroInv.grid(row=1,column=0)
+        self.label_rtseleccionadoModMarca = tk.Label(self.labelframe_rtselec, text='Modelo y Marca')
+        self.label_rtseleccionadoModMarca.grid(row=1,column=1)
+        self.label_rtseleccionadoCI = tk.Label(self.labelframe_rtselec, text='Centro De Investigación')
+        self.label_rtseleccionadoCI.grid(row=1,column=3)
+        self.label_rtseleccionadoEstado = tk.Label(self.labelframe_rtselec, text='Estado')
+        self.label_rtseleccionadoCI.grid(row=1,column=4)
+
+        sp = ttk.Separator(self.labelframe_rtselec, orient='horizontal')
+        sp.grid(row=1,columnspan=4,sticky='ew')
+        
+        self.cell_nroInvRTSeleccionado = self.rTSeleccionado['nroInv']
+        self.cell_nroInvRTSeleccionado.grid(row=2,column=0)
+        self.cell_ModMarcaRTSeleccionado = self.rTSeleccionado['modMarca']
+        self.cell_nroInvRTSeleccionado.grid(row=2,column=1)
+        self.cell_CIRTSeleccionado = self.cIDelRT['nombre']
+        self.cell_EstadoRTSeleccionado = self.rTSeleccionado['estadoActual']
+        
+
+
+    def mostrarDatosTurnoSeleccionado():
+        pass
+    
     ventana.mainloop()
  
