@@ -91,7 +91,7 @@ class CentroDeInvestigacion:
     def recursosTecnologicos(self):
         return self._recursosTecnologicos
 
-    @property
+
     def getNombre(self):
         return self.nombre
 

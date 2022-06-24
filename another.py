@@ -19,8 +19,11 @@ class Gestor():
     def __init__(self, nom,tipos) -> None:
         self.nombres= nom
         self.tipos = tipos
+
+        self.a = []
     def printer(self):
-        print(self.nombres)
+        self.a.append('1212')
+        print(self.a)
 
 if __name__ == '__main__':
     root = Tk()
