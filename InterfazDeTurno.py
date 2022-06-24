@@ -1,6 +1,5 @@
 from tkinter import StringVar, ttk
 import tkinter as tk
-from tokenize import String
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
 
 class InterfazDeReservaTurno():
@@ -9,6 +8,16 @@ class InterfazDeReservaTurno():
         self.grillaRTs = None
         self.button_seleccionarRT = None
         self.labelframe_rtselec = None
+        self.label_rtseleccionadoNroInv = None
+        self.label_rtseleccionadoModMarca = None
+        self.label_rtseleccionadoCI = None
+        self.label_rtseleccionadoEstado = None
+        self.cell_nroInvRTSeleccionado = None
+        self.cell_ModMarcaRTSeleccionado = None
+        self.cell_CIRTSeleccionado = None
+        self.cell_EstadoRTSeleccionado = None
+
+
 
         self.rTSeleccionado = None
         self.cIDelRT = None
@@ -59,7 +68,7 @@ class InterfazDeReservaTurno():
                         if elm[:2] != ("!disabled", "!selected")]
 
         self.grillaRTs = ttk.Treeview(self.frame,columns=(1,2,3,4),show='headings')
-        self.self.grillaRTs.pack()
+        self.grillaRTs.pack()
         style = ttk.Style()
         style.map("Treeview", 
           foreground=fixed_map("foreground"),
@@ -151,7 +160,7 @@ class InterfazDeReservaTurno():
         self.cell_fechaInicioTurnoSelec.grid(row=2,column=0)
         self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado['fechaFin']))
         self.cell_fechaInicioTurnoSelec.grid(row=2,column=1)
-        
+
 
 
     ventana.mainloop()
