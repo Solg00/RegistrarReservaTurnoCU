@@ -6,7 +6,8 @@ import datosEjemplo as dt
 import datetime
 from datetime import date
 from functools import partial
-
+from InterfazDeEmail import InterfazDeEmail as email
+from InterfazDeWhatsApp import InterfazDeWhatsApp as wp
 
 
 '''INTERFAZ DE CU'''
@@ -430,7 +431,7 @@ class GestorDeCURegReservaDeTurno:
 
         self.obtenerTurnosParaRT()
 
-    def getDateTimeActual():
+    def getDateTimeActual(self):
         return datetime.now()
 
     def obtenerTurnosParaRT(self):
@@ -487,9 +488,19 @@ class GestorDeCURegReservaDeTurno:
             pass
 
     def generarNotificacionConDatosTurno(self):
-        pass
+        mensaje = "Notificacion enviada a:" + \
+                  "\nDatos del turno: " + \
+                  "\nFecha: " + self._turnoSeleccionado.fechaHoraInicio.date().strftime("%d/%m/%y") + \
+                  "\nHora de Inicio: " + self._turnoSeleccionado.fechaHoraInicio.time().strftime("%H:%M") + \
+                  "\nHora de Fin: " + self._turnoSeleccionado.fechaHoraFin.time().strftime("%H:%M")
+        if self._envioNotifSeleccionado == "Email":
+            interfazEmail.enviarNotificacion(self._usuarioLogueado.getEmailCientifico(), mensaje)
+        else:
+            wp.enviarNotificacion(self._cientificosCIRT.telefonoCelular, mensaje)
+
     def FinCU(self):
         pass
+
 
 if __name__ == '__main__':
     ventana = tk.Tk()
