@@ -83,7 +83,7 @@ class InterfazDeReservaTurno():
         self.combo_tiposRT.pack()
         self.combo_tiposRT.bind("<<ComboboxSelected>>", self.tomarSeleccionTipoRT)
         
-    def tomarSeleccionTipoRT(self):
+    def tomarSeleccionTipoRT(self,otro):
         self.tipoRTSeleccionado= self.combo_tiposRT.get()
         GestorDeCURegReservaDeTurno.tomarSeleccionTipoRT(gestor,self.tipoRTSeleccionado)
 
