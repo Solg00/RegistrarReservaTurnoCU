@@ -3,6 +3,8 @@ import tkinter as tk
 from tkcalendar import Calendar
 from GestorDeCURegReservaDeTurno import GestorDeCURegReservaDeTurno as gestor
 import datosEjemplo as dt
+from datetime import datetime
+from datetime import date
 
 
 class InterfazDeReservaTurno():
