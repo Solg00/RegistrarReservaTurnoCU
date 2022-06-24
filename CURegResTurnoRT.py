@@ -154,12 +154,12 @@ class InterfazDeReservaTurno():
 
 
     def mostrarDatosRTSeleccionado(self,ci):
+        self.clear_window()
         self.cIDelRT = ci
         self.labelframe_rtselec= tk.LabelFrame(self.frame,text='Recurso Tecnológico Seleccionado')
         self.labelframe_rtselec.grid(column=0,row=0)
 
         #Headers
-        self.labelframe_rtselec.pack()
         self.label_rtseleccionadoNroInv = tk.Label(self.labelframe_rtselec, text='Nro Inventario')
         self.label_rtseleccionadoNroInv.grid(row=0,column=0)
         self.label_rtseleccionadoModMarca = tk.Label(self.labelframe_rtselec, text='Modelo y Marca')
@@ -251,7 +251,7 @@ class InterfazDeReservaTurno():
 
         date1 = self.cal.get_date().split("/")
         date1 = [int(a) for a in date1]
-        fechaSeleccionada = date(day=date1[1], month=date1[0], year=date1[2] + 2000)
+        fechaSeleccionada = date(day=date1[0], month=date1[1], year=date1[2] + 2000)
         column = 2
         for turno in turnos[fechaSeleccionada]:
             column += 1
@@ -440,7 +440,7 @@ class GestorDeCURegReservaDeTurno:
         self._turnosRT = self._RTSeleccionado.buscarTurnosDelRT()
         self.ordenarTurnos()
         self.agruparTurnos()
-        self.asignarColorPorEstado()
+        self.asignarColorTurnoXDisp()
         InterfazDeReservaTurno.mostrarTurnos(interfaz,self.turnosAgrupados,self._turnosPorColor)
 
     def ordenarTurnos(self):
@@ -468,9 +468,9 @@ class GestorDeCURegReservaDeTurno:
             estadoTurno = turno.cambiosDeEstadoTurno[-1].estado.getNombre()
             if estadoTurno == "Disponible":
                 self._turnosPorColor["Azul"].append(turno)
-            if estadoTurno == "Con reserva pendiente de confirmacion":
+            elif estadoTurno == "Con reserva pendiente de confirmacion":
                 self._turnosPorColor["Gris"].append(turno)
-            if estadoTurno.esReservado():
+            elif estadoTurno == 'Reservado':
                 self._turnosPorColor["Rojo"].append(turno)
 
 

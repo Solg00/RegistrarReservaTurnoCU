@@ -122,7 +122,7 @@ class Main():
 
         date1 = self.cal.get_date().split("/")
         date1 = [int(a) for a in date1]
-        fechaSeleccionada = date(day=date1[1], month=date1[0], year=date1[2] + 2000)
+        fechaSeleccionada = date(day=date1[0], month=date1[1], year=date1[2] + 2000)
         column = 2
         for turno in turnos[fechaSeleccionada]:
             column += 1
