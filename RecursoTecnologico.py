@@ -91,3 +91,24 @@ class RecursoTecnologico:
                 estadoActual = cambioEstado
         return estadoActual
 
+    def esReservable(self):
+        return self.buscarEstadoActual().esReservable()
+
+    def getCIDeRT(self,CIs):
+        for centroInvestigacion in CIs:
+            if centroInvestigacion.esTuRT(self):
+                return centroInvestigacion.getNombre()
+
+    def getDatosRT(self,CIs,marcas):
+        '''Devuelve el Nro de Inventario, la Marca y modelo, el nombre del CI, y el estado del RT'''
+        rt_estado_actual = self.buscarEstadoActual().getNombreEstado()
+        rt_nroInv = self.getNumeroInventario()
+        rt_modMarc = self.miModeloYMarca(marcas)
+        rt_CI = self.getCIDeRT(CIs)
+        rt_data = {
+                'nroInv' : rt_nroInv,
+                'modMarca' : rt_modMarc,
+                'estadoActual' : rt_estado_actual,
+                'CI_nombre' : rt_CI,
+            }
+        return rt_data

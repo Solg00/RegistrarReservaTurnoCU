@@ -359,35 +359,23 @@ class GestorDeCURegReservaDeTurno:
             self.FinCU()
 
     def buscarRT(self):
+        '''Obtiene aquellos recursos tecnológicos del tipo seleccionado que se puedan reservar'''
+        #1-búsqueda de RTs reservables del tipo
+        rTsReservablesDeTipo = []
         for rt in self._recursosTecnologicos:
-            if rt.sosRTDelTipoSeleccionado(self._tipoRTSeleccionado) and rt.buscarEstadoActual().esReservable():
-                self.obtenerDatosRT(rt)
+            if rt.sosRTDelTipoSeleccionado(self._tipoRTSeleccionado) and rt.esReservable():
+                rTsReservablesDeTipo.append(rt)
+        
+        #2- obtener datos de RTs Reservables y del Tipo
+        for rt in rTsReservablesDeTipo:
+            self.datosRts.append(rt.getDatosRT(self._centrosInvestigacion,self._marcas)) #[{rt1}...]
+
+        #Llamada a los métodos siguientes
         self.asignarColorPorEstado()
         self.agruparPorCI()
         
         InterfazDeReservaTurno.mostrarRTs(interfaz,self._RtXCI)
                 
-
-
-    def obtenerDatosRT(self,rt):
-        rt_estado_actual = rt.buscarEstadoActual().getNombreEstado()
-        rt_nroInv = rt.getNumeroInventario()
-        rt_modMarc = rt.miModeloYMarca(self._marcas)
-        rt_CI = self.obtenerCIDelRT(rt)
-        self.datosRts.append( 
-            {
-                'nroInv' : rt_nroInv,
-                'modMarca' : rt_modMarc,
-                'estadoActual' : rt_estado_actual,
-                'CI_nombre' : rt_CI,
-            }
-        )
-                
-    def obtenerCIDelRT(self,rt):
-        for centroInvestigacion in self._centrosInvestigacion:
-            if centroInvestigacion.esTuRT(rt):
-                return centroInvestigacion.getNombre()
-
     def agruparPorCI(self):
         '''Agrupa los RTs por el CI a los que pertenezcan'''
         for rt in self.datosRts:
@@ -404,6 +392,7 @@ class GestorDeCURegReservaDeTurno:
 
 
     def asignarColorPorEstado(self):
+        '''Asigna un color a cada RT de acuerdo al estado que se encuentre'''
         for rt in self.datosRts:
             if rt.get('estadoActual') == 'Disponible':
                 rt['estadoActual']={'nombre' : rt.get('estadoActual'), 'color' : 'Azul' }
