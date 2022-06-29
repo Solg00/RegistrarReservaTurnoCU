@@ -374,7 +374,7 @@ class GestorDeCURegReservaDeTurno:
         rt_nroInv = rt.getNumeroInventario()
         rt_modMarc = rt.miModeloYMarca(self._marcas)
         rt_CI = self.obtenerCIDelRT(rt)
-        self.datosRts.append(
+        self.datosRts.append( 
             {
                 'nroInv' : rt_nroInv,
                 'modMarca' : rt_modMarc,
