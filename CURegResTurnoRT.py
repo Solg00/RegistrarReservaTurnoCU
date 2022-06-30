@@ -483,9 +483,9 @@ class GestorDeCURegReservaDeTurno:
     def generarNotificacionConDatosTurno(self):
         mensaje = "Notificacion enviada:" + \
                   "\nDatos del turno: " + \
-                  "\nFecha: " + self._turnoSeleccionado.fechaHoraInicio.date().strftime("%d/%m/%y") + \
-                  "\nHora de Inicio: " + self._turnoSeleccionado.fechaHoraInicio.time().strftime("%H:%M") + \
-                  "\nHora de Fin: " + self._turnoSeleccionado.fechaHoraFin.time().strftime("%H:%M")
+                  "\nFecha: " + self._turnoSeleccionado['FechaHoraInicio'].date().strftime("%d/%m/%y") + \
+                  "\nHora de Inicio: " + self._turnoSeleccionado['FechaHoraInicio'].time().strftime("%H:%M") + \
+                  "\nHora de Fin: " + self._turnoSeleccionado['FechaHoraFin'].time().strftime("%H:%M")
         if self._envioNotifSeleccionado == "Email":
             self.emailCientifico = self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
             InterfazDeEmail.enviarnotificacion(intMail,self.emailCientifico,mensaje)
