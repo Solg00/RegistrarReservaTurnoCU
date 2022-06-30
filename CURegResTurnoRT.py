@@ -344,7 +344,9 @@ class GestorDeCURegReservaDeTurno:
         self.obtenerUsuarioLogueado()
 
     def tomarSeleccionDeTurno(self, selected):
-        self._turnoSeleccionado  = selected
+        for turno in self._RTSeleccionado.turnos:
+            if turno.fechaHoraInicio == selected["FechaHoraInicio"]:
+                self._turnoSeleccionado = turno
         InterfazDeReservaTurno.mostrarDatosRTSeleccionado(interfaz,self._ciDelRT)
         
     def tomarSeleccionEnvioNotificacion(self, selected):
@@ -483,9 +485,9 @@ class GestorDeCURegReservaDeTurno:
     def generarNotificacionConDatosTurno(self):
         mensaje = "Notificacion enviada:" + \
                   "\nDatos del turno: " + \
-                  "\nFecha: " + self._turnoSeleccionado['FechaHoraInicio'].date().strftime("%d/%m/%y") + \
-                  "\nHora de Inicio: " + self._turnoSeleccionado['FechaHoraInicio'].time().strftime("%H:%M") + \
-                  "\nHora de Fin: " + self._turnoSeleccionado['FechaHoraFin'].time().strftime("%H:%M")
+                  "\nFecha: " + self._turnoSeleccionado.fechaHoraInicio.date().strftime("%d/%m/%y") + \
+                  "\nHora de Inicio: " + self._turnoSeleccionado.fechaHoraInicio.time().strftime("%H:%M") + \
+                  "\nHora de Fin: " + self._turnoSeleccionado.fechaHoraFin.time().strftime("%H:%M")
         if self._envioNotifSeleccionado == "Email":
             self.emailCientifico = self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
             InterfazDeEmail.enviarnotificacion(intMail,self.emailCientifico,mensaje)
