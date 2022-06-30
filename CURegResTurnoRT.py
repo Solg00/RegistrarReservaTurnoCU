@@ -424,10 +424,11 @@ class GestorDeCURegReservaDeTurno:
 
     def getDateTimeActual(self):
         self.fechaHoraActual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        print(self.fechaHoraActual)
 
     def obtenerTurnosParaRT(self):
-        self.fechaHoraActual = self.getDateTimeActual()
-        self._turnosRT = self._RTSeleccionado.buscarTurnosDelRT()
+        self.getDateTimeActual()
+        self._turnosRT = self._RTSeleccionado.buscarTurnosDelRT(self.fechaHoraActual)
         self.ordenarTurnos()
         self.agruparTurnos()
         self.asignarColorTurnoXDisp()
@@ -455,7 +456,7 @@ class GestorDeCURegReservaDeTurno:
                           "Rojo": []}
 
         for turno in self._turnosRT:
-            estadoTurno = turno.cambiosDeEstadoTurno[-1].estado.getNombre()
+            estadoTurno = turno.cambiosDeEstadoTurno[-1].estado.getNombre() #NO!!!
             if estadoTurno == "Disponible":
                 self._turnosPorColor["Azul"].append(turno)
             elif estadoTurno == "Con reserva pendiente de confirmacion":
@@ -465,15 +466,20 @@ class GestorDeCURegReservaDeTurno:
 
 
     def confirmarTurno(self):
+        print('**********CONFIRMAR TURNO***************')
         estadoAsignar = None
         for estado in self._estados:
            if estado.esReservado() and estado.esAmbito('Turno'):
                 estadoAsignar = estado
         
-        self._turnoSeleccionado.reservar(estadoAsignar)
+        self.reservar(estadoAsignar)
 
         self.generarNotificacionConDatosTurno()
  
+    def reservar(self,estadoAsignar):
+        print('GESTOR: reservando')
+        self._RTSeleccionado.reservar(self._turnoSeleccionado,self.fechaHoraActual,estadoAsignar)
+
 
     def generarNotificacionConDatosTurno(self):
         mensaje = "Notificacion enviada:" + \

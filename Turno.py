@@ -1,4 +1,5 @@
 from datetime import datetime
+from time import strptime
 
 from CambioDeEstadoTurno import CambioDeEstadoTurno
 
@@ -31,7 +32,7 @@ class Turno:
     def cambiosDeEstadoTurno(self):
         return self._cambiosDeEstadoTurno
 
-    def crearCambioEstado(self, estado):
+    def crearCambioEstado(self, estado,date):
         # Se crea un nuevo cambio de estado, con un estado que se pasa por parametro
         cambioEstado = CambioDeEstadoTurno(estado)
 
@@ -39,13 +40,15 @@ class Turno:
         # setea su fechaHoraHasta con la fecha y hora actual
         for cambioEstado in self.cambiosDeEstadoTurno:
             if cambioEstado.sosEstadoActual():
-                cambioEstado.fechaHoraFin = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                cambioEstado.fechaHoraFin = date
 
         # Finalmentese agrega el nuevo cambio de estado, ya con la fechaHoraHasta del estado anterior actualizada
         self.cambiosDeEstadoTurno.append(cambioEstado)
 
-    def sosPosteriorAFechaActual(self):
-        if self.fechaHoraInicio > datetime.now():
+        print('**********TURNO RESERVADO****************')
+
+    def sosPosteriorAFechaActual(self,date):
+        if self.fechaHoraInicio > datetime.strptime(date,"%d/%m/%Y %H:%M:%S"):
             return True
         return False
 
@@ -58,5 +61,7 @@ class Turno:
                 return cambioEstado
 
     # El estadoReservado se lo pasaria el gestor despues de buscar entre los estados
-    def reservar(self, estadoReservado):
-        self.crearCambioEstado(estadoReservado)
+    def reservar(self, estadoReservado,date):
+        print('TURNO: reservando')
+
+        self.crearCambioEstado(estadoReservado,date)

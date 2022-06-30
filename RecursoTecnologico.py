@@ -73,11 +73,11 @@ class RecursoTecnologico:
             if centro.esTuRT(self):
                 return centro
     
-    def buscarTurnosDelRT(self) -> list:
+    def buscarTurnosDelRT(self,date) -> list:
         '''Obtiene los turnos del RT posteriores a la fecha actual'''
         listaTurnos = []
         for turno in self.turnos:
-            posterior = turno.sosPosteriorAFechaActual()
+            posterior = turno.sosPosteriorAFechaActual(date)
             if posterior:
                 turno = turno.getDatosTurno()
                 listaTurnos.append(turno)
@@ -112,3 +112,7 @@ class RecursoTecnologico:
                 'CI_nombre' : rt_CI,
             }
         return rt_data
+
+    def reservar(self,turno,date,estado):
+        print('RT: reservando')
+        turno.reservar(date,estado)
