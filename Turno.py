@@ -47,8 +47,8 @@ class Turno:
 
         print('**********TURNO RESERVADO****************')
 
-    def sosPosteriorAFechaActual(self,date):
-        if self.fechaHoraInicio > datetime.strptime(date,"%d/%m/%Y %H:%M:%S"):
+    def sosPosteriorAFechaActual(self, date):
+        if self.fechaHoraInicio > date:
             return True
         return False
 
@@ -65,3 +65,21 @@ class Turno:
         print('TURNO: reservando')
 
         self.crearCambioEstado(estadoReservado,date)
+
+    def getDatosTurno(self):
+        '''Devuelve la fecha de inicio, de fin y el estado del Turno'''
+        turno_fechaHoraInicio = self.getFechaInicio()
+        turno_fechaHoraFin = self.getFechaFin()
+        turno_estado_actual = self.buscarEstadoActual().getNombreEstado()
+        turnoData = {
+                'FechaHoraInicio' : turno_fechaHoraInicio,
+                'FechaHoraFin' : turno_fechaHoraFin,
+                'EstadoActual' : turno_estado_actual,
+            }
+        return turnoData
+
+    def getFechaInicio(self):
+        return self._fechaHoraInicio
+
+    def getFechaFin(self):
+        return self._fechaHoraFin

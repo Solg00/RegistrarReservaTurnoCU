@@ -79,8 +79,8 @@ class RecursoTecnologico:
         for turno in self.turnos:
             posterior = turno.sosPosteriorAFechaActual(date)
             if posterior:
-                turno = turno.getDatosTurno()
-                listaTurnos.append(turno)
+                datosTurno = turno.getDatosTurno()
+                listaTurnos.append(datosTurno)
         return listaTurnos
 
     def buscarEstadoActual(self):

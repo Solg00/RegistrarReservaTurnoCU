@@ -196,9 +196,9 @@ class InterfazDeReservaTurno():
         sp = ttk.Separator(self.labelframe_turno, orient='horizontal')
         sp.grid(row=1,columnspan=2,sticky='ew')
 
-        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado.fechaHoraInicio))
+        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado['FechaHoraInicio']))
         self.cell_fechaInicioTurnoSelec.grid(row=2,column=0)
-        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado.fechaHoraFin))
+        self.cell_fechaInicioTurnoSelec =  tk.Label(self.labelframe_turno, textvariable= StringVar(value=self.turnoSeleccionado['FechaHoraFin']))
         self.cell_fechaInicioTurnoSelec.grid(row=2,column=1)
 
         self.pedirSeleccionEnvioNotificacion()
@@ -254,20 +254,20 @@ class InterfazDeReservaTurno():
             column += 1
             if turno in turnosColor["Azul"]:
                 lblAzul = tk.Label(self.frame,
-                                   text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
-                                   "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="blue")
+                                   text="Hora Inicio: " + turno['FechaHoraInicio'].time().strftime("%H:%M") +
+                                   "    Hora Fin: " + turno['FechaHoraFin'].time().strftime("%H:%M"), background="blue")
                 lblAzul.grid(row=column, column=0)
                 btnReservar = tk.Button(self.frame, text="Reservar", command=partial(self.tomarSeleccionTurno, turno))
                 btnReservar.grid(row=column, column=1)
             if turno in turnosColor["Rojo"]:
                 lblRojo = tk.Label(self.frame,
-                                   text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
-                                   "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="red")
+                                   text="Hora Inicio: " + turno['FechaHoraInicio'].time().strftime("%H:%M") +
+                                   "    Hora Fin: " + turno['FechaHoraFin'].time().strftime("%H:%M"), background="red")
                 lblRojo.grid(row=column, column=0)
             if turno in turnosColor["Gris"]:
                 lblGris = tk.Label(self.frame,
-                                   text="Hora Inicio: " + turno.fechaHoraInicio.time().strftime("%H:%M") +
-                                   "    Hora Fin: " + turno.fechaHoraFin.time().strftime("%H:%M"), background="grey")
+                                   text="Hora Inicio: " + turno['FechaHoraInicio'].time().strftime("%H:%M") +
+                                   "    Hora Fin: " + turno['FechaHoraFin'].time().strftime("%H:%M"), background="grey")
                 lblGris.grid(row=column, column=0)
 
 
@@ -279,7 +279,7 @@ class InterfazDeReservaTurno():
 
         for fecha in turnos.keys():
             for turno in turnos[fecha]:
-                if turno.buscarEstadoActual().estado.getNombre() == "Disponible":
+                if turno["EstadoActual"] == "Disponible":
                     self.cal.calevent_create(fecha, "", tags="ConTurnos")
 
         self.cal.tag_config("ConTurnos", background="blue")
@@ -423,7 +423,7 @@ class GestorDeCURegReservaDeTurno:
         self.obtenerTurnosParaRT()
 
     def getDateTimeActual(self):
-        self.fechaHoraActual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self.fechaHoraActual = datetime.now()
         print(self.fechaHoraActual)
 
     def obtenerTurnosParaRT(self):
@@ -435,12 +435,12 @@ class GestorDeCURegReservaDeTurno:
         InterfazDeReservaTurno.mostrarTurnos(interfaz,self.turnosAgrupados,self._turnosPorColor)
 
     def ordenarTurnos(self):
-        self._turnosRT = sorted(self._turnosRT, key=lambda x: x.fechaHoraInicio)
+        self._turnosRT = sorted(self._turnosRT, key=lambda x: x["FechaHoraInicio"])
     
     def agruparTurnos(self):
         for turno in self._turnosRT:
             turnosDia = []
-            fechaTurno = turno.fechaHoraInicio.date()
+            fechaTurno = turno["FechaHoraInicio"].date()
             fechas = self.turnosAgrupados.keys()
             if fechaTurno not in fechas:
                 self.turnosAgrupados[fechaTurno] = turnosDia
@@ -456,12 +456,11 @@ class GestorDeCURegReservaDeTurno:
                           "Rojo": []}
 
         for turno in self._turnosRT:
-            estadoTurno = turno.cambiosDeEstadoTurno[-1].estado.getNombre() #NO!!!
-            if estadoTurno == "Disponible":
+            if turno['EstadoActual'] == "Disponible":
                 self._turnosPorColor["Azul"].append(turno)
-            elif estadoTurno == "Con reserva pendiente de confirmacion":
+            elif turno['EstadoActual'] == "Con reserva pendiente de confirmacion":
                 self._turnosPorColor["Gris"].append(turno)
-            elif estadoTurno == 'Reservado':
+            elif turno['EstadoActual'] == 'Reservado':
                 self._turnosPorColor["Rojo"].append(turno)
 
 
