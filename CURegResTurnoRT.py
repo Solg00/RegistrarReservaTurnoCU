@@ -66,8 +66,8 @@ class InterfazDeReservaTurno():
     #Métodos de clase
     def opcionReservarTurnoRT(self):
         print("*****Interfaz: opción opcionReservarTurnoRT seleccionada  ******")
-        btn_opcionReservarTurnoRT = tk.Button(self.frame,text="Reservar Turno de RT", padx=50, pady= 40, command=self.habilitarInterfaz)
-        btn_opcionReservarTurnoRT.pack()
+        btn_opcionReservarTurnoRT = tk.Button(self.frame,text="Reservar Turno de RT", padx=50, pady= 40, command=self.habilitarInterfaz, bg='coral',font='calibri 16 bold')
+        btn_opcionReservarTurnoRT.pack(padx=50,pady=50)
 
 
     
@@ -334,7 +334,7 @@ class GestorDeCURegReservaDeTurno:
     
     def tomarSeleccionTipoRT(self, selected):
         self._tipoRTSeleccionado = selected
-        self.buscarRT()
+        self.buscarRTsDelTipoYReserv()
 
     def tomarSeleccionRT(self, selected):
         for rt in self._recursosTecnologicos:
@@ -360,7 +360,7 @@ class GestorDeCURegReservaDeTurno:
         else:
             self.FinCU()
 
-    def buscarRT(self):
+    def buscarRTsDelTipoYReserv(self):
         '''Obtiene aquellos recursos tecnológicos del tipo seleccionado que se puedan reservar'''
         #1-búsqueda de RTs reservables del tipo
         rTsReservablesDeTipo = []
