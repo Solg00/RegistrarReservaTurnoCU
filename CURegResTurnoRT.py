@@ -66,7 +66,7 @@ class InterfazDeReservaTurno():
     #Métodos de clase
     def opcionReservarTurnoRT(self):
         print("*****Interfaz: opción opcionReservarTurnoRT seleccionada  ******")
-        btn_opcionReservarTurnoRT = tk.Button(self.frame,text="Reservar Turno de RT", padx=50, pady= 40, command=self.habilitarInterfaz, bg='coral',font='calibri 16 bold')
+        btn_opcionReservarTurnoRT = tk.Button(self.frame,text="Reservar Turno de RT", padx=50, pady= 40, command=self.habilitarInterfaz, bg='NavajoWhite2',font='calibri 16 bold')
         btn_opcionReservarTurnoRT.pack(padx=50,pady=50)
 
 
@@ -319,7 +319,7 @@ class GestorDeCURegReservaDeTurno:
             self.fechaHoraActual = None
             self._turnosPorColor = None
             self.emailCientifico = None
-            self.nro_tel = None
+            self.nro_telCientifico = None
     def registrarReservaTurno(self):
         print('***GESTOR INICIO CU ***')
         self.buscarTiposRT()
@@ -492,8 +492,8 @@ class GestorDeCURegReservaDeTurno:
             self.emailCientifico = self._usuarioLogueado.getEmailCientifico(self._ciDelRT.cientificos)
             InterfazDeEmail.enviarnotificacion(intMail,self.emailCientifico,mensaje)
         else:
-            self.nro_tel = self._usuarioLogueado.getNroCientifico(self._ciDelRT.cientificos)
-            InterfazDeWhatsApp.enviarnotificacion(intWP,self.nro_tel, mensaje)
+            self.nro_telCientifico = self._usuarioLogueado.getNroCientifico(self._ciDelRT.cientificos)
+            InterfazDeWhatsApp.enviarnotificacion(intWP,self.nro_telCientifico, mensaje)
         self.FinCU()
 
         
